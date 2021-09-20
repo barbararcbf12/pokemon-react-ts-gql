@@ -25,29 +25,29 @@ function Pokemon({ pokemon }: any) {
   }, [pokemon.id]);
 
   return (
-    <>
-      <div className="pokemon" key={pokemon.id}>
-        <div className="pokemon__name">
-          <p>{pokemon.name}</p>
-        </div>
-        <div className="pokemon__meta">
-          <span>HEIGHT: {pokemon.height}</span>
-          <span>WEIGHT: {pokemon.weight}</span>
-        </div>
-        <div className="pokemon__image">
-          <img src={pokemonImage} alt={pokemon.name} />
-        </div>
-        <div className="pokemon__attacks">
-          <span>ABILITIES:</span>
-          {pokemon &&
-            pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
-              <span key={`${ability.pokemon_v2_ability.id}`}>
-                {ability.pokemon_v2_ability.name}
-              </span>
-            ))}
-        </div>
+    <div className="pokemon" key={pokemon.id}>
+      <div className="pokemon__name">
+        <p>{pokemon.name}</p>
       </div>
-    </>
+      <div className="pokemon__meta">
+        <span>HEIGHT: {pokemon.height}</span>
+        <span>WEIGHT: {pokemon.weight}</span>
+      </div>
+      <div className="pokemon__image">
+        <img src={pokemonImage} alt={pokemon.name} />
+      </div>
+      <div className="pokemon__name">
+        <p>ABILITIES</p>
+      </div>
+      <div className="pokemon__abilities">
+        {pokemon &&
+          pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
+            <span key={`${ability.pokemon_v2_ability.id}`}>
+              {ability.pokemon_v2_ability.name}
+            </span>
+          ))}
+      </div>
+    </div>
   );
 }
 
