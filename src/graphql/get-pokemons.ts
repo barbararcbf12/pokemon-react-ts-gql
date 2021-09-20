@@ -7,9 +7,6 @@ export const GET_POKEMONS = gql`
       id
       height
       weight
-      pokemon_v2_pokemonsprites {
-        sprites
-      }
       pokemon_v2_pokemonabilities {
         pokemon_v2_ability {
           name

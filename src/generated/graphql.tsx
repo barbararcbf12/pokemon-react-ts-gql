@@ -51721,7 +51721,7 @@ export type PokemonsQueryVariables = Exact<{
 }>;
 
 
-export type PokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon: Array<{ __typename?: 'pokemon_v2_pokemon', name: string, id: number, height?: Maybe<number>, weight?: Maybe<number>, pokemon_v2_pokemonsprites: Array<{ __typename?: 'pokemon_v2_pokemonsprites', sprites: string }>, pokemon_v2_pokemonabilities: Array<{ __typename?: 'pokemon_v2_pokemonability', pokemon_v2_ability?: Maybe<{ __typename?: 'pokemon_v2_ability', name: string, id: number }> }> }> };
+export type PokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon: Array<{ __typename?: 'pokemon_v2_pokemon', name: string, id: number, height?: Maybe<number>, weight?: Maybe<number>, pokemon_v2_pokemonabilities: Array<{ __typename?: 'pokemon_v2_pokemonability', pokemon_v2_ability?: Maybe<{ __typename?: 'pokemon_v2_ability', name: string, id: number }> }> }> };
 
 
 export const PokemonsDocument = gql`
@@ -51731,9 +51731,6 @@ export const PokemonsDocument = gql`
     id
     height
     weight
-    pokemon_v2_pokemonsprites {
-      sprites
-    }
     pokemon_v2_pokemonabilities {
       pokemon_v2_ability {
         name
