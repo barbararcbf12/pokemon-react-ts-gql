@@ -51715,6 +51715,11 @@ export type Subscription_RootPokemon_V2_Versionname_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+export type CountPokemonsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountPokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon_aggregate: { __typename?: 'pokemon_v2_pokemon_aggregate', aggregate?: Maybe<{ __typename?: 'pokemon_v2_pokemon_aggregate_fields', count: number }> } };
+
 export type PokemonsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -51724,6 +51729,42 @@ export type PokemonsQueryVariables = Exact<{
 export type PokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon: Array<{ __typename?: 'pokemon_v2_pokemon', name: string, id: number, height?: Maybe<number>, weight?: Maybe<number>, pokemon_v2_pokemonabilities: Array<{ __typename?: 'pokemon_v2_pokemonability', pokemon_v2_ability?: Maybe<{ __typename?: 'pokemon_v2_ability', name: string, id: number }> }> }> };
 
 
+export const CountPokemonsDocument = gql`
+    query countPokemons {
+  pokemon_v2_pokemon_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useCountPokemonsQuery__
+ *
+ * To run a query within a React component, call `useCountPokemonsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountPokemonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountPokemonsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountPokemonsQuery(baseOptions?: Apollo.QueryHookOptions<CountPokemonsQuery, CountPokemonsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountPokemonsQuery, CountPokemonsQueryVariables>(CountPokemonsDocument, options);
+      }
+export function useCountPokemonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountPokemonsQuery, CountPokemonsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountPokemonsQuery, CountPokemonsQueryVariables>(CountPokemonsDocument, options);
+        }
+export type CountPokemonsQueryHookResult = ReturnType<typeof useCountPokemonsQuery>;
+export type CountPokemonsLazyQueryHookResult = ReturnType<typeof useCountPokemonsLazyQuery>;
+export type CountPokemonsQueryResult = Apollo.QueryResult<CountPokemonsQuery, CountPokemonsQueryVariables>;
 export const PokemonsDocument = gql`
     query pokemons($limit: Int, $offset: Int) {
   pokemon_v2_pokemon(limit: $limit, offset: $offset) {
