@@ -51723,6 +51723,7 @@ export type CountPokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon
 export type PokemonsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<Pokemon_V2_Pokemon_Order_By> | Pokemon_V2_Pokemon_Order_By>;
 }>;
 
 
@@ -51766,8 +51767,8 @@ export type CountPokemonsQueryHookResult = ReturnType<typeof useCountPokemonsQue
 export type CountPokemonsLazyQueryHookResult = ReturnType<typeof useCountPokemonsLazyQuery>;
 export type CountPokemonsQueryResult = Apollo.QueryResult<CountPokemonsQuery, CountPokemonsQueryVariables>;
 export const PokemonsDocument = gql`
-    query pokemons($limit: Int, $offset: Int) {
-  pokemon_v2_pokemon(limit: $limit, offset: $offset) {
+    query pokemons($limit: Int, $offset: Int, $orderBy: [pokemon_v2_pokemon_order_by!]) {
+  pokemon_v2_pokemon(limit: $limit, offset: $offset, order_by: $orderBy) {
     name
     id
     height
@@ -51796,6 +51797,7 @@ export const PokemonsDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
