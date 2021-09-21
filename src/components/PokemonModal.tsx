@@ -29,7 +29,7 @@ function PokemonModal(props: Props) {
   }
 
   if (error) {
-    return <Alert variant="danger">{errorMsg}test</Alert>;
+    return <Alert variant="danger">{errorMsg}</Alert>;
   }
 
   return (
@@ -41,9 +41,9 @@ function PokemonModal(props: Props) {
         <PokemonDetails
           name={pokemon?.name ?? "-"}
           sprite={pokemon?.sprites.front_default ?? "-"}
-          abilities={pokemon?.abilities ?? "-"}
-          stats={pokemon?.stats ?? "-"}
-          types={pokemon?.types ?? "-"}
+          abilities={pokemon?.abilities ?? []}
+          stats={pokemon?.stats ?? []}
+          types={pokemon?.types ?? []}
         />
       </Modal.Body>
     </Modal>

@@ -26,6 +26,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 /* POKEMON APP
 =========================================== */
 .container {
