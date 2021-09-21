@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Badge, Col, Card, ListGroup } from "react-bootstrap";
 
 function Pokemon({ pokemon }: any) {
   const [pokemonImage, setpokemonImage] = useState("");
@@ -25,29 +26,53 @@ function Pokemon({ pokemon }: any) {
   }, [pokemon.id]);
 
   return (
-    <div className="pokemon" key={pokemon.id}>
-      <div className="pokemon__name">
-        <p>{pokemon.name}</p>
-      </div>
-      <div className="pokemon__meta">
-        <span>HEIGHT: {pokemon.height}</span>
-        <span>WEIGHT: {pokemon.weight}</span>
-      </div>
-      <div className="pokemon__image">
-        <img src={pokemonImage} alt={pokemon.name} />
-      </div>
-      <div className="pokemon__name">
-        <p>ABILITIES</p>
-      </div>
-      <div className="pokemon__abilities">
-        {pokemon &&
-          pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
-            <span key={`${ability.pokemon_v2_ability.id}`}>
-              {ability.pokemon_v2_ability.name}
-            </span>
-          ))}
-      </div>
-    </div>
+    <Col>
+      <Card
+        style={{
+          borderRadius: 10,
+          boxShadow: "5px 5px 15px -3px rgba(0,0,0,0.61)",
+        }}
+      >
+        <Card.Img variant="top" src={pokemonImage} />
+        <Card.Body>
+          <Card.Title>{pokemon.name}</Card.Title>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  margin: 2,
+                }}
+              >
+                <Badge bg="primary">HEIGHT: {pokemon.height}</Badge>
+                <Badge bg="primary">WEIGHT: {pokemon.weight}</Badge>
+              </div>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Card.Subtitle>Abilities</Card.Subtitle>
+              {pokemon &&
+                pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
+                  <div
+                    key={ability.pokemon_v2_ability.id}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      margin: 2,
+                    }}
+                  >
+                    <Badge bg="secondary">
+                      {ability.pokemon_v2_ability.name}
+                    </Badge>
+                  </div>
+                ))}
+            </ListGroup.Item>
+          </ListGroup>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 }
 

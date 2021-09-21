@@ -1,5 +1,6 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
-import { Spinner, Alert } from "react-bootstrap";
+import { Spinner, Alert, Row } from "react-bootstrap";
 import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
 import { fetchPokemon } from "../utils/getPokemon";
 import Pokemon from "../components/Pokemon";
@@ -36,6 +37,8 @@ function PokemonsContainer() {
   const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(20);
   const [page, setPage] = useState<number>(1);
   const [offset, setOffset] = useState(0);
+  //State to change order_by criteria
+  //   const [orderBy, setOrderBy] = useState();
 
   //Modal states
   const [pokemonSearch, setPokemonSearch] = useState<PokemonSearch>();
@@ -49,13 +52,16 @@ function PokemonsContainer() {
     setShow(true);
   }
 
-  //Fetch pokemons from Graphql api
-  const { data, error, loading } = usePokemonsQuery({
+  const options = {
     variables: {
       limit: itemsPerPage,
       offset: offset,
+      //   order_by: orderBy,
     },
-  });
+  };
+
+  //Fetch pokemons from Graphql api
+  const { data, error, loading } = usePokemonsQuery(options);
 
   const pokemons = data?.pokemon_v2_pokemon;
 
@@ -107,7 +113,7 @@ function PokemonsContainer() {
     }, 1500);
   };
 
-  //Rendering dependingo on responses
+  //Rendering depending on responses
   if (loading || countLoading) {
     return (
       <div style={spinnerWrapperStyle}>
@@ -139,6 +145,13 @@ function PokemonsContainer() {
           <button onClick={() => setitemsPerPage(50)}>50</button>
         </div>
         <div>
+          Order list by:{" "}
+          {/* The idea is to use setOrderBy to change the order_by criteria here */}
+          <button onClick={() => {}}>name</button> | 
+          <button onClick={() => {}}>height</button> |{" "}
+          <button onClick={() => {}}>weight</button>
+        </div>
+        <div>
           <span>
             Page: {page} of {numberOfPages}
           </span>{" "}
@@ -146,11 +159,13 @@ function PokemonsContainer() {
           <button onClick={() => nextPage()}>Next</button>
         </div>
       </nav>
-      <div className="container">
+      {/* <div className="container"> */}
+      <Row xs={1} md={5} className="g-4">
         {pokemons?.map((pokemon: any) => (
           <Pokemon key={pokemon.id} pokemon={pokemon} />
         ))}
-      </div>
+      </Row>
+      {/* </div> */}
     </>
   );
 }
