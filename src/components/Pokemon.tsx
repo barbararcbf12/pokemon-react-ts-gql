@@ -37,7 +37,8 @@ function Pokemon({ pokemon }: any) {
         <Card.Body>
           <Card.Title>{pokemon.name}</Card.Title>
           <ListGroup variant="flush">
-            <ListGroup.Item>
+            <ListGroup.Item as="li">
+              {/* <ListGroup horizontal> */}
               <div
                 style={{
                   display: "flex",
@@ -46,28 +47,46 @@ function Pokemon({ pokemon }: any) {
                   margin: 2,
                 }}
               >
-                <Badge bg="primary">HEIGHT: {pokemon.height}</Badge>
-                <Badge bg="primary">WEIGHT: {pokemon.weight}</Badge>
+                <Badge bg="primary">height: {pokemon.height}</Badge>
+                <Badge bg="primary">weight: {pokemon.weight}</Badge>
               </div>
+              {/* </ListGroup> */}
             </ListGroup.Item>
-            <ListGroup.Item>
-              <Card.Subtitle>Abilities</Card.Subtitle>
-              {pokemon &&
-                pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
-                  <div
-                    key={ability.pokemon_v2_ability.id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      margin: 2,
-                    }}
-                  >
-                    <Badge bg="secondary">
-                      {ability.pokemon_v2_ability.name}
-                    </Badge>
-                  </div>
-                ))}
+            <ListGroup.Item action variant="warning">
+              <Card.Subtitle>
+                <div
+                  style={{
+                    padding: 3,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  abilities
+                </div>
+              </Card.Subtitle>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  flexFlow: "row wrap",
+                  padding: 5,
+                }}
+              >
+                {pokemon &&
+                  pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
+                    <div
+                      key={ability?.pokemon_v2_ability.id}
+                      style={{
+                        margin: 1,
+                      }}
+                    >
+                      <Badge bg="secondary">
+                        {ability.pokemon_v2_ability.name}
+                      </Badge>{" "}
+                    </div>
+                  ))}
+              </div>
             </ListGroup.Item>
           </ListGroup>
         </Card.Body>

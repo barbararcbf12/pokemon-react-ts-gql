@@ -32,6 +32,11 @@ nav {
   justify-content: space-between;
 }
 
+/* OVEWRITE BOOTSTRAP STYLE */
+.list-group-item {
+  padding: 0.5rem 0;
+}
+
 /* POKEMON APP
 =========================================== */
 .container {
