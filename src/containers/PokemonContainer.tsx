@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Spinner, Alert, Row, Nav } from "react-bootstrap";
+import { Spinner, Alert, Row } from "react-bootstrap";
 import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
 import { fetchPokemon } from "../utils/getPokemon";
 import Pokemon from "../components/Pokemon";
 import ListOptions from "../components/ListOptions";
-// import Search from "../components/Search";
 import Header from "../components/Header";
 import type {
   PokemonAbilities,
@@ -51,7 +50,7 @@ function PokemonsContainer() {
   }
 
   //State to change order_by criteria
-  const [orderBy, setOrderBy] = useState<any>(JSON.stringify({ name: "asc" }));
+  const [orderBy, setOrderBy] = useState<any>();
 
   console.log("orderBy", orderBy);
 
