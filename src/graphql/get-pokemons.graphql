@@ -1,0 +1,72 @@
+# enum Sort {
+#   asc
+#   desc
+# }
+
+# input ListOrderByInput {
+#   name: Sort
+#   height: Sort
+#   weight: Sort
+# }
+
+# type Query {
+#     pokemon_v2_pokemon(limit: Int, offset: Int, orderBy: ListOrderByInput)[pokemon_v2_pokemon!]
+# }
+
+query pokemons(
+  $limit: Int
+  $offset: Int
+) #   $orderBy: [pokemon_v2_pokemon_order_by!]
+{
+  #   pokemon_v2_pokemon(limit: $limit, offset: $offset, order_by: ) {
+  pokemon_v2_pokemon(limit: $limit, offset: $offset, order_by: { name: asc }) {
+    name
+    id
+    height
+    weight
+    pokemon_v2_pokemonabilities {
+      pokemon_v2_ability {
+        name
+        id
+      }
+    }
+  }
+}
+
+query pokemonsOrderedByHeight($limit: Int, $offset: Int) {
+  pokemon_v2_pokemon(
+    limit: $limit
+    offset: $offset
+    order_by: { height: asc }
+  ) {
+    name
+    id
+    height
+    weight
+    pokemon_v2_pokemonabilities {
+      pokemon_v2_ability {
+        name
+        id
+      }
+    }
+  }
+}
+
+query pokemonsOrderedByWeight($limit: Int, $offset: Int) {
+  pokemon_v2_pokemon(
+    limit: $limit
+    offset: $offset
+    order_by: { weight: asc }
+  ) {
+    name
+    id
+    height
+    weight
+    pokemon_v2_pokemonabilities {
+      pokemon_v2_ability {
+        name
+        id
+      }
+    }
+  }
+}

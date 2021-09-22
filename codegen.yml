@@ -1,6 +1,6 @@
 overwrite: true
 schema: "https://beta.pokeapi.co/graphql/v1beta"
-documents: "./src/**/*.ts"
+documents: "./src/**/*.graphql"
 generates:
   src/generated/graphql.tsx:
     plugins:

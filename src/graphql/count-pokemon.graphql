@@ -1,0 +1,7 @@
+query countPokemons {
+  pokemon_v2_pokemon_aggregate {
+    aggregate {
+      count
+    }
+  }
+}

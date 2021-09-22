@@ -1,10 +1,11 @@
-/* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
-import { Spinner, Alert, Row } from "react-bootstrap";
+import { Spinner, Alert, Row, Nav } from "react-bootstrap";
 import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
 import { fetchPokemon } from "../utils/getPokemon";
 import Pokemon from "../components/Pokemon";
-import Search from "../components/Search";
+import ListOptions from "../components/ListOptions";
+// import Search from "../components/Search";
+import Header from "../components/Header";
 import type {
   PokemonAbilities,
   PokemonType,
@@ -12,7 +13,7 @@ import type {
 } from "../components/PokemonDetails";
 import PokemonModal from "../components/PokemonModal";
 
-type ItemsPerPage = 10 | 20 | 50;
+export type ItemsPerPage = 10 | 20 | 50;
 
 export const spinnerStyle = {
   width: "10rem",
@@ -37,8 +38,6 @@ function PokemonsContainer() {
   const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(20);
   const [page, setPage] = useState<number>(1);
   const [offset, setOffset] = useState(0);
-  //State to change order_by criteria
-  //   const [orderBy, setOrderBy] = useState();
 
   //Modal states
   const [pokemonSearch, setPokemonSearch] = useState<PokemonSearch>();
@@ -48,15 +47,18 @@ function PokemonsContainer() {
   const [show, setShow] = useState(false);
 
   function handleShow() {
-    //setFullscreen(true);
     setShow(true);
   }
+
+  //State to change order_by criteria
+  const [orderBy, setOrderBy] = useState<any>(JSON.stringify({ name: "asc" }));
+
+  console.log("orderBy", orderBy);
 
   const options = {
     variables: {
       limit: itemsPerPage,
       offset: offset,
-      //   order_by: orderBy,
     },
   };
 
@@ -128,7 +130,15 @@ function PokemonsContainer() {
 
   return (
     <>
-      <Search getPokemon={getPokemon} openModal={handleShow} />
+      <Header getPokemon={getPokemon} openModal={handleShow} />
+      <ListOptions
+        setitemsPerPage={setitemsPerPage}
+        setOrderBy={setOrderBy}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        page={page}
+        numberOfPages={numberOfPages}
+      />
       <PokemonModal
         show={show}
         setShow={setShow}
@@ -137,35 +147,12 @@ function PokemonsContainer() {
         errorMsg={errorMsg}
         loading={loadingSearch}
       />
-      <nav>
-        <div>
-          Items per page:{" "}
-          <button onClick={() => setitemsPerPage(10)}>10</button> | 
-          <button onClick={() => setitemsPerPage(20)}>20</button> |{" "}
-          <button onClick={() => setitemsPerPage(50)}>50</button>
-        </div>
-        <div>
-          Order list by:{" "}
-          {/* The idea is to use setOrderBy to change the order_by criteria here */}
-          <button onClick={() => {}}>name</button> | 
-          <button onClick={() => {}}>height</button> |{" "}
-          <button onClick={() => {}}>weight</button>
-        </div>
-        <div>
-          <span>
-            Page: {page} of {numberOfPages}
-          </span>{" "}
-          <button onClick={() => previousPage()}>Previous</button>{" "}
-          <button onClick={() => nextPage()}>Next</button>
-        </div>
-      </nav>
-      {/* <div className="container"> */}
+
       <Row xs={1} md={5} className="g-4">
         {pokemons?.map((pokemon: any) => (
           <Pokemon key={pokemon.id} pokemon={pokemon} />
         ))}
       </Row>
-      {/* </div> */}
     </>
   );
 }
