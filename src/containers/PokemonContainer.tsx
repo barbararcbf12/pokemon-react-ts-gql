@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner, Alert, Row } from "react-bootstrap";
 import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
-import { fetchPokemon } from "../utils/getPokemon";
 import Pokemon from "../components/Pokemon";
 import ListOptions from "../components/ListOptions";
 import Header from "../components/Header";
@@ -21,7 +20,8 @@ export const spinnerStyle = {
 };
 
 export const spinnerWrapperStyle = {
-  //textAlign: "center",
+  display: "flex",
+  justifyContent: "center",
   marginTop: 50,
 };
 
@@ -34,15 +34,15 @@ export type PokemonSearch = {
 };
 
 function PokemonsContainer() {
+  //Pagination states
   const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(20);
   const [page, setPage] = useState<number>(1);
   const [offset, setOffset] = useState(0);
 
+  //Search states
+  const [searchQuery, setSearchQuery] = useState<any>("");
+
   //Modal states
-  const [pokemonSearch, setPokemonSearch] = useState<PokemonSearch>();
-  const [loadingSearch, setLoadingSearch] = useState(false);
-  const [errorSearch, setErrorSearch] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [show, setShow] = useState(false);
 
   function handleShow() {
@@ -50,21 +50,27 @@ function PokemonsContainer() {
   }
 
   //State to change order_by criteria
-  const [orderBy, setOrderBy] = useState<any>();
-
-  console.log("orderBy", orderBy);
+  const [orderBy, setOrderBy] = useState<any>({ name: "asc" });
 
   const options = {
     variables: {
       limit: itemsPerPage,
-      offset: offset,
+      offset,
+      orderBy,
+      where: searchQuery,
     },
   };
 
   //Fetch pokemons from Graphql api
   const { data, error, loading } = usePokemonsQuery(options);
 
-  const pokemons = data?.pokemon_v2_pokemon;
+  const [pokemons, setPokemons] = useState<any>();
+
+  useEffect(() => {
+    if (data?.pokemon_v2_pokemon && data?.pokemon_v2_pokemon?.length > 0) {
+      setPokemons(data?.pokemon_v2_pokemon);
+    }
+  }, [data?.pokemon_v2_pokemon]);
 
   const {
     data: countData,
@@ -89,30 +95,9 @@ function PokemonsContainer() {
       setOffset(page * itemsPerPage);
     }
   }
+  //
 
-  //Search function
-  const getPokemon = async (query: any) => {
-    if (!query) {
-      setErrorMsg("You must enter a Pokemon");
-      setErrorSearch(true);
-      return;
-    }
-    setErrorSearch(false);
-    setLoadingSearch(true);
-    setTimeout(async () => {
-      try {
-        const response = await fetchPokemon(query);
-        const results = await response.json();
-        setPokemonSearch(results);
-        setLoadingSearch(false);
-      } catch (err) {
-        console.log(err);
-        setLoadingSearch(false);
-        setErrorSearch(true);
-        setErrorMsg("Pokemon not found.");
-      }
-    }, 1500);
-  };
+  const [selectedPokemon, setSelectedPokemon] = useState();
 
   //Rendering depending on responses
   if (loading || countLoading) {
@@ -129,7 +114,7 @@ function PokemonsContainer() {
 
   return (
     <>
-      <Header getPokemon={getPokemon} openModal={handleShow} />
+      <Header setSearchQuery={setSearchQuery} />
       <ListOptions
         setitemsPerPage={setitemsPerPage}
         setOrderBy={setOrderBy}
@@ -138,18 +123,16 @@ function PokemonsContainer() {
         page={page}
         numberOfPages={numberOfPages}
       />
-      <PokemonModal
-        show={show}
-        setShow={setShow}
-        pokemon={pokemonSearch}
-        error={errorSearch}
-        errorMsg={errorMsg}
-        loading={loadingSearch}
-      />
 
       <Row xs={1} md={5} className="g-4">
+        <PokemonModal show={show} setShow={setShow} pokemon={selectedPokemon} />
         {pokemons?.map((pokemon: any) => (
-          <Pokemon key={pokemon.id} pokemon={pokemon} />
+          <Pokemon
+            key={pokemon.id}
+            pokemon={pokemon}
+            openModal={handleShow}
+            setSelectedPokemon={setSelectedPokemon}
+          />
         ))}
       </Row>
     </>

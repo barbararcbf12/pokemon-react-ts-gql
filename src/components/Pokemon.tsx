@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { Badge, Col, Card, ListGroup } from "react-bootstrap";
+// import { fetchPokemonImage } from "../utils/getPokemonImage";
 
-function Pokemon({ pokemon }: any) {
+type Props = {
+  pokemon: any;
+  openModal: () => void;
+  setSelectedPokemon: Dispatch<any>;
+};
+
+function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
   const [pokemonImage, setpokemonImage] = useState("");
 
   useEffect(() => {
@@ -9,10 +16,8 @@ function Pokemon({ pokemon }: any) {
     //is return null for 'sprites.other.official-artwork.front_default' for all pokemons
     //I have found the link below where someone says that there's a bug with the graphql engine
     //Link: https://gitmemory.com/issue/PokeAPI/pokeapi/614/826330809
-    async function fetchData() {
-      let response: any = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${pokemon.id}`
-      )
+    async function fetchData(id: number) {
+      let response: any = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
         .then((response) => response.json())
         .then((data) => data)
         .catch((error) => {
@@ -22,12 +27,17 @@ function Pokemon({ pokemon }: any) {
         response?.sprites?.other?.["official-artwork"]?.["front_default"];
       setpokemonImage(image);
     }
-    fetchData();
+    fetchData(pokemon.id);
   }, [pokemon.id]);
 
   return (
     <Col>
       <Card
+        as="button"
+        onClick={() => {
+          openModal();
+          setSelectedPokemon(pokemon);
+        }}
         style={{
           borderRadius: 10,
           boxShadow: "5px 5px 15px -3px rgba(0,0,0,0.61)",
@@ -38,7 +48,6 @@ function Pokemon({ pokemon }: any) {
           <Card.Title>{pokemon.name}</Card.Title>
           <ListGroup variant="flush">
             <ListGroup.Item as="li">
-              {/* <ListGroup horizontal> */}
               <div
                 style={{
                   display: "flex",
@@ -50,9 +59,8 @@ function Pokemon({ pokemon }: any) {
                 <Badge bg="primary">height: {pokemon.height}</Badge>
                 <Badge bg="primary">weight: {pokemon.weight}</Badge>
               </div>
-              {/* </ListGroup> */}
             </ListGroup.Item>
-            <ListGroup.Item action variant="warning">
+            <ListGroup.Item variant="warning">
               <Card.Subtitle>
                 <div
                   style={{
@@ -74,15 +82,15 @@ function Pokemon({ pokemon }: any) {
                 }}
               >
                 {pokemon &&
-                  pokemon.pokemon_v2_pokemonabilities.map((ability: any) => (
+                  pokemon?.pokemon_v2_pokemonabilities?.map((ability: any) => (
                     <div
-                      key={ability?.pokemon_v2_ability.id}
+                      key={ability?.pokemon_v2_ability?.id}
                       style={{
                         margin: 1,
                       }}
                     >
                       <Badge bg="secondary">
-                        {ability.pokemon_v2_ability.name}
+                        {ability.pokemon_v2_ability?.name}
                       </Badge>{" "}
                     </div>
                   ))}

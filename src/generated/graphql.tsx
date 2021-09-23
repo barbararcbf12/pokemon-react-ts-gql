@@ -51723,26 +51723,12 @@ export type CountPokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon
 export type PokemonsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<Pokemon_V2_Pokemon_Order_By> | Pokemon_V2_Pokemon_Order_By>;
+  where?: Maybe<Scalars['String']>;
 }>;
 
 
 export type PokemonsQuery = { __typename?: 'query_root', pokemon_v2_pokemon: Array<{ __typename?: 'pokemon_v2_pokemon', name: string, id: number, height?: Maybe<number>, weight?: Maybe<number>, pokemon_v2_pokemonabilities: Array<{ __typename?: 'pokemon_v2_pokemonability', pokemon_v2_ability?: Maybe<{ __typename?: 'pokemon_v2_ability', name: string, id: number }> }> }> };
-
-export type PokemonsOrderedByHeightQueryVariables = Exact<{
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type PokemonsOrderedByHeightQuery = { __typename?: 'query_root', pokemon_v2_pokemon: Array<{ __typename?: 'pokemon_v2_pokemon', name: string, id: number, height?: Maybe<number>, weight?: Maybe<number>, pokemon_v2_pokemonabilities: Array<{ __typename?: 'pokemon_v2_pokemonability', pokemon_v2_ability?: Maybe<{ __typename?: 'pokemon_v2_ability', name: string, id: number }> }> }> };
-
-export type PokemonsOrderedByWeightQueryVariables = Exact<{
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type PokemonsOrderedByWeightQuery = { __typename?: 'query_root', pokemon_v2_pokemon: Array<{ __typename?: 'pokemon_v2_pokemon', name: string, id: number, height?: Maybe<number>, weight?: Maybe<number>, pokemon_v2_pokemonabilities: Array<{ __typename?: 'pokemon_v2_pokemonability', pokemon_v2_ability?: Maybe<{ __typename?: 'pokemon_v2_ability', name: string, id: number }> }> }> };
 
 
 export const CountPokemonsDocument = gql`
@@ -51782,8 +51768,13 @@ export type CountPokemonsQueryHookResult = ReturnType<typeof useCountPokemonsQue
 export type CountPokemonsLazyQueryHookResult = ReturnType<typeof useCountPokemonsLazyQuery>;
 export type CountPokemonsQueryResult = Apollo.QueryResult<CountPokemonsQuery, CountPokemonsQueryVariables>;
 export const PokemonsDocument = gql`
-    query pokemons($limit: Int, $offset: Int) {
-  pokemon_v2_pokemon(limit: $limit, offset: $offset, order_by: {name: asc}) {
+    query pokemons($limit: Int, $offset: Int, $orderBy: [pokemon_v2_pokemon_order_by!], $where: String) {
+  pokemon_v2_pokemon(
+    limit: $limit
+    offset: $offset
+    order_by: $orderBy
+    where: {name: {_regex: $where}}
+  ) {
     name
     id
     height
@@ -51812,6 +51803,8 @@ export const PokemonsDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
+ *      orderBy: // value for 'orderBy'
+ *      where: // value for 'where'
  *   },
  * });
  */
@@ -51826,93 +51819,3 @@ export function usePokemonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<P
 export type PokemonsQueryHookResult = ReturnType<typeof usePokemonsQuery>;
 export type PokemonsLazyQueryHookResult = ReturnType<typeof usePokemonsLazyQuery>;
 export type PokemonsQueryResult = Apollo.QueryResult<PokemonsQuery, PokemonsQueryVariables>;
-export const PokemonsOrderedByHeightDocument = gql`
-    query pokemonsOrderedByHeight($limit: Int, $offset: Int) {
-  pokemon_v2_pokemon(limit: $limit, offset: $offset, order_by: {height: asc}) {
-    name
-    id
-    height
-    weight
-    pokemon_v2_pokemonabilities {
-      pokemon_v2_ability {
-        name
-        id
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __usePokemonsOrderedByHeightQuery__
- *
- * To run a query within a React component, call `usePokemonsOrderedByHeightQuery` and pass it any options that fit your needs.
- * When your component renders, `usePokemonsOrderedByHeightQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePokemonsOrderedByHeightQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function usePokemonsOrderedByHeightQuery(baseOptions?: Apollo.QueryHookOptions<PokemonsOrderedByHeightQuery, PokemonsOrderedByHeightQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PokemonsOrderedByHeightQuery, PokemonsOrderedByHeightQueryVariables>(PokemonsOrderedByHeightDocument, options);
-      }
-export function usePokemonsOrderedByHeightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PokemonsOrderedByHeightQuery, PokemonsOrderedByHeightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PokemonsOrderedByHeightQuery, PokemonsOrderedByHeightQueryVariables>(PokemonsOrderedByHeightDocument, options);
-        }
-export type PokemonsOrderedByHeightQueryHookResult = ReturnType<typeof usePokemonsOrderedByHeightQuery>;
-export type PokemonsOrderedByHeightLazyQueryHookResult = ReturnType<typeof usePokemonsOrderedByHeightLazyQuery>;
-export type PokemonsOrderedByHeightQueryResult = Apollo.QueryResult<PokemonsOrderedByHeightQuery, PokemonsOrderedByHeightQueryVariables>;
-export const PokemonsOrderedByWeightDocument = gql`
-    query pokemonsOrderedByWeight($limit: Int, $offset: Int) {
-  pokemon_v2_pokemon(limit: $limit, offset: $offset, order_by: {weight: asc}) {
-    name
-    id
-    height
-    weight
-    pokemon_v2_pokemonabilities {
-      pokemon_v2_ability {
-        name
-        id
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __usePokemonsOrderedByWeightQuery__
- *
- * To run a query within a React component, call `usePokemonsOrderedByWeightQuery` and pass it any options that fit your needs.
- * When your component renders, `usePokemonsOrderedByWeightQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePokemonsOrderedByWeightQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function usePokemonsOrderedByWeightQuery(baseOptions?: Apollo.QueryHookOptions<PokemonsOrderedByWeightQuery, PokemonsOrderedByWeightQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PokemonsOrderedByWeightQuery, PokemonsOrderedByWeightQueryVariables>(PokemonsOrderedByWeightDocument, options);
-      }
-export function usePokemonsOrderedByWeightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PokemonsOrderedByWeightQuery, PokemonsOrderedByWeightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PokemonsOrderedByWeightQuery, PokemonsOrderedByWeightQueryVariables>(PokemonsOrderedByWeightDocument, options);
-        }
-export type PokemonsOrderedByWeightQueryHookResult = ReturnType<typeof usePokemonsOrderedByWeightQuery>;
-export type PokemonsOrderedByWeightLazyQueryHookResult = ReturnType<typeof usePokemonsOrderedByWeightLazyQuery>;
-export type PokemonsOrderedByWeightQueryResult = Apollo.QueryResult<PokemonsOrderedByWeightQuery, PokemonsOrderedByWeightQueryVariables>;

@@ -37,35 +37,11 @@ function ListOptions(props: Props) {
       <Nav.Item>
         <span>Order list by: </span>
         {/* The idea is to use setOrderBy to change the order_by criteria here */}
-        <Button
-          onClick={() =>
-            setOrderBy({
-              name: "asc",
-            })
-          }
-        >
-          name
-        </Button>{" "}
-        | 
-        <Button
-          onClick={() =>
-            setOrderBy({
-              height: "asc",
-            })
-          }
-        >
+        <Button onClick={() => setOrderBy({ name: "asc" })}>name</Button> | 
+        <Button onClick={() => setOrderBy({ height: "asc" })}>
           height
-        </Button>{" "}
-        |{" "}
-        <Button
-          onClick={() =>
-            setOrderBy({
-              weight: "asc",
-            })
-          }
-        >
-          weight
-        </Button>
+        </Button> |{" "}
+        <Button onClick={() => setOrderBy({ weight: "asc" })}>weight</Button>
       </Nav.Item>
       <Nav.Item>
         <span>

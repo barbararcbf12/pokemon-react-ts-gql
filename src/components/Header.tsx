@@ -1,15 +1,13 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch } from "react";
 import { Navbar } from "react-bootstrap";
 import Search from "../components/Search";
-import { ItemsPerPage } from "../containers/PokemonContainer";
 
 type Props = {
-  getPokemon: (query: any) => Promise<void>;
-  openModal: () => void;
+  setSearchQuery: Dispatch<string>;
 };
 
 function Header(props: Props) {
-  const { getPokemon, openModal } = props;
+  const { setSearchQuery } = props;
 
   return (
     <>
@@ -17,7 +15,7 @@ function Header(props: Props) {
         <Navbar.Brand href="#">POKEMON APP</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Search getPokemon={getPokemon} openModal={openModal} />
+          <Search setSearchQuery={setSearchQuery} />
         </Navbar.Collapse>
       </Navbar>
     </>
