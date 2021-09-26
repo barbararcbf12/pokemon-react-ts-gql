@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, ProgressBar } from "react-bootstrap";
+import { Row, Col, Card, ProgressBar, Badge } from "react-bootstrap";
 
 export type PokemonType = {
   pokemon_v2_type: {
@@ -25,7 +25,7 @@ function PokemonDetails(props: any) {
   return (
     <Row>
       <Col xs={12} md={6}>
-        <Card>
+        <Card style={{ marginBottom: 5 }}>
           <Card.Header>
             <img
               src={props.image}
@@ -33,23 +33,31 @@ function PokemonDetails(props: any) {
               style={{ width: "-webkit-fill-available" }}
             />
           </Card.Header>
-          <Card.Body>
-            <h5>Abilities</h5>
-            {props.abilities?.map((ability: PokemonAbilities, key: string) => (
-              <div key={key}>
-                <span>{ability?.pokemon_v2_ability?.name}</span>
-              </div>
-            ))}
-            <h5>Types</h5>
-            {props.types.map((type: PokemonType, key: string) => (
-              <div key={key}>
-                <span>{type.pokemon_v2_type.name}</span>
-              </div>
-            ))}
-          </Card.Body>
         </Card>
       </Col>
       <Col xs={12} md={6}>
+        <Card style={{ marginBottom: 5 }}>
+          <Card.Body>
+            <h5>Abilities</h5>
+            {props.abilities?.map((ability: PokemonAbilities, key: string) => (
+              <Badge
+                key={key}
+                bg="secondary"
+                style={{
+                  margin: 1,
+                }}
+              >
+                {ability?.pokemon_v2_ability?.name}
+              </Badge>
+            ))}
+            <h5>Types</h5>
+            {props.types.map((type: PokemonType, key: string) => (
+              <Badge bg="primary" key={key}>
+                <span>{type.pokemon_v2_type.name}</span>
+              </Badge>
+            ))}
+          </Card.Body>
+        </Card>
         <Card>
           <Card.Body>
             <h4>Base Stats</h4>

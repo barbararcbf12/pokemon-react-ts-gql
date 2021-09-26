@@ -1,6 +1,5 @@
 import React, { Dispatch, useEffect, useState } from "react";
-import { Badge, Col, Card, ListGroup } from "react-bootstrap";
-// import { fetchPokemonImage } from "../utils/getPokemonImage";
+import { Badge, Card, ListGroup } from "react-bootstrap";
 
 type Props = {
   pokemon: any;
@@ -31,7 +30,7 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
   }, [pokemon.id]);
 
   return (
-    <Col>
+    <>
       <Card
         as="button"
         onClick={() => {
@@ -44,7 +43,7 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
         }}
       >
         <Card.Img variant="top" src={pokemonImage} />
-        <Card.Body>
+        <Card.Body style={{ width: "100%" }}>
           <Card.Title>{pokemon.name}</Card.Title>
           <ListGroup variant="flush">
             <ListGroup.Item as="li">
@@ -99,7 +98,7 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
           </ListGroup>
         </Card.Body>
       </Card>
-    </Col>
+    </>
   );
 }
 
