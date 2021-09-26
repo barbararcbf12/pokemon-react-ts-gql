@@ -21,7 +21,6 @@ export type PokemonStat = {
 };
 
 function PokemonDetails(props: any) {
-  console.log(props);
   return (
     <Row>
       <Col xs={12} md={6}>

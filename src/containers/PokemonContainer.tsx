@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Spinner, Alert, Row } from "react-bootstrap";
+import { Spinner, Alert, Row, Col } from "react-bootstrap";
 import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
 import Pokemon from "../components/Pokemon";
 import ListOptions from "../components/ListOptions";
@@ -34,20 +34,21 @@ export type PokemonSearch = {
 };
 
 function PokemonsContainer() {
-  //Pagination states
+  //Pagination states & functions
   const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(20);
   const [page, setPage] = useState<number>(1);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState<number>(0);
 
   //Search states
-  const [searchQuery, setSearchQuery] = useState<any>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  //Modal states
+  //Modal states & function
   const [show, setShow] = useState(false);
 
   function handleShow() {
     setShow(true);
   }
+  //
 
   //State to change order_by criteria
   const [orderBy, setOrderBy] = useState<any>({ name: "asc" });
@@ -72,27 +73,32 @@ function PokemonsContainer() {
     }
   }, [data?.pokemon_v2_pokemon]);
 
+  //Find total number of pages
   const {
     data: countData,
     error: countError,
     loading: countLoading,
   } = useCountPokemonsQuery();
 
-  //Pagination functions
-  let numberOfPages =
-    countData?.pokemon_v2_pokemon_aggregate?.aggregate?.count ?? 100;
+  let totalNumberOfPokemons = Math.round(
+    countData?.pokemon_v2_pokemon_aggregate?.aggregate?.count ??
+      1118 / itemsPerPage
+  );
 
+  const [numberOfPages, setNumberOfPages] = useState(totalNumberOfPokemons);
+
+  //Pagination functions
   function previousPage() {
     if (page > 1) {
       setPage(page - 1);
-      setOffset(page * itemsPerPage);
+      setOffset(page * itemsPerPage - itemsPerPage + 1);
     }
   }
 
   function nextPage() {
     if (page < numberOfPages) {
       setPage(page + 1);
-      setOffset(page * itemsPerPage);
+      setOffset(page * itemsPerPage - itemsPerPage + 1);
     }
   }
   //
@@ -115,26 +121,44 @@ function PokemonsContainer() {
   return (
     <>
       <Header setSearchQuery={setSearchQuery} />
+
       <ListOptions
         setitemsPerPage={setitemsPerPage}
         setOrderBy={setOrderBy}
         previousPage={previousPage}
         nextPage={nextPage}
         page={page}
+        setNumberOfPages={setNumberOfPages}
+        totalNumberOfPokemons={totalNumberOfPokemons}
         numberOfPages={numberOfPages}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
 
+      <PokemonModal show={show} setShow={setShow} pokemon={selectedPokemon} />
       <Row xs={1} md={5} className="g-4">
-        <PokemonModal show={show} setShow={setShow} pokemon={selectedPokemon} />
         {pokemons?.map((pokemon: any) => (
-          <Pokemon
-            key={pokemon.id}
-            pokemon={pokemon}
-            openModal={handleShow}
-            setSelectedPokemon={setSelectedPokemon}
-          />
+          <Col key={pokemon.id}>
+            <Pokemon
+              pokemon={pokemon}
+              openModal={handleShow}
+              setSelectedPokemon={setSelectedPokemon}
+            />
+          </Col>
         ))}
       </Row>
+      <ListOptions
+        setitemsPerPage={setitemsPerPage}
+        setOrderBy={setOrderBy}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        page={page}
+        setNumberOfPages={setNumberOfPages}
+        totalNumberOfPokemons={totalNumberOfPokemons}
+        numberOfPages={numberOfPages}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
     </>
   );
 }
