@@ -2,16 +2,10 @@ import React, { Dispatch } from "react";
 import { Form, Container, Col, Button } from "react-bootstrap";
 
 type Props = {
-  // getPokemon: (name: string) => any;
-  // openModal: () => void;
   setSearchQuery: Dispatch<string>;
 };
 
-export default function Search({
-  // getPokemon,
-  // openModal,
-  setSearchQuery,
-}: Props) {
+export default function Search({ setSearchQuery }: Props) {
   const [search, setSearch] = React.useState("");
 
   return (
