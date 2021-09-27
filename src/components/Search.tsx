@@ -23,7 +23,7 @@ export default function Search({ setSearchQuery }: Props) {
         <Button
           data-testid={"search-button"}
           onClick={(e) => {
-            setSearchQuery(search);
+            setSearchQuery(search.toLowerCase());
           }}
         >
           Search
