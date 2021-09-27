@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import PokemonDetails from "../components/PokemonDetails";
 
+import noImge from "../resources/no-image.jpg";
+
 type Props = {
   show: boolean;
   setShow: (t: boolean) => void;
@@ -26,7 +28,8 @@ function PokemonModal(props: Props) {
           console.error("Error:", error);
         });
       let image =
-        response?.sprites?.other?.["official-artwork"]?.["front_default"];
+        response?.sprites?.other?.["official-artwork"]?.["front_default"] ??
+        noImge;
       setpokemonImage(image);
     }
     if (pokemon && pokemon?.id) {

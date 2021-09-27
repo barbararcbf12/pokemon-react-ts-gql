@@ -1,6 +1,8 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import { Badge, Card, ListGroup } from "react-bootstrap";
 
+import noImge from "../resources/no-image.jpg";
+
 type Props = {
   pokemon: any;
   openModal: () => void;
@@ -24,7 +26,8 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
           console.error("Error:", error);
         });
       let image =
-        response?.sprites?.other?.["official-artwork"]?.["front_default"];
+        response?.sprites?.other?.["official-artwork"]?.["front_default"] ??
+        noImge;
       if (isMounted) setpokemonImage(image);
     }
     fetchData(pokemon.id);
@@ -45,6 +48,7 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
         style={{
           borderRadius: 10,
           boxShadow: "5px 5px 15px -3px rgba(0,0,0,0.61)",
+          width: "100%",
         }}
         aria-label={pokemon.name}
       >
