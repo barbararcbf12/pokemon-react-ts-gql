@@ -100,7 +100,7 @@ function PokemonsContainer() {
   function previousPage() {
     if (page > 1) {
       setPage(page - 1);
-      setOffset(page * itemsPerPage);
+      setOffset(offset - itemsPerPage);
     } else if (page === 1) setOffset(0);
   }
 
