@@ -13,6 +13,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - navigate back and forward through the available pages of results
   - chose how many results should be displayed per page
 
+## Deployed app
+
+[Pokemon App](https://barbararcbf12.github.io/pokemon-react-ts-gql/)
+
 ## Available Scripts
 
 In the project directory, you can run:
