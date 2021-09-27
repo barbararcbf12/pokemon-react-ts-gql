@@ -29,6 +29,14 @@ function ListOptions(props: Props) {
     setSearchQuery,
   } = props;
 
+  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState([
+    "",
+    "active",
+    "",
+  ]);
+
+  const [selectedOrderBy, setSelectedOrderBy] = useState(["active", "", ""]);
+
   return (
     <Nav
       fill
@@ -84,7 +92,9 @@ function ListOptions(props: Props) {
             onClick={() => {
               setitemsPerPage(10);
               setNumberOfPages(Math.round(totalNumberOfPokemons / 10));
+              setSelectedItemsPerPage(["active", "", ""]);
             }}
+            className={selectedItemsPerPage[0]}
           >
             10
           </Button>
@@ -93,7 +103,9 @@ function ListOptions(props: Props) {
             onClick={() => {
               setitemsPerPage(20);
               setNumberOfPages(Math.round(totalNumberOfPokemons / 20));
+              setSelectedItemsPerPage(["", "active", ""]);
             }}
+            className={selectedItemsPerPage[1]}
           >
             20
           </Button>
@@ -102,7 +114,9 @@ function ListOptions(props: Props) {
             onClick={() => {
               setitemsPerPage(50);
               setNumberOfPages(Math.round(totalNumberOfPokemons / 50));
+              setSelectedItemsPerPage(["", "", "active"]);
             }}
+            className={selectedItemsPerPage[2]}
           >
             50
           </Button>
@@ -126,19 +140,31 @@ function ListOptions(props: Props) {
         <ButtonGroup aria-label="Order list by">
           <Button
             variant="secondary"
-            onClick={() => setOrderBy({ name: "asc" })}
+            onClick={() => {
+              setOrderBy({ name: "asc" });
+              setSelectedOrderBy(["active", "", ""]);
+            }}
+            className={selectedOrderBy[0]}
           >
             name
           </Button>
           <Button
             variant="secondary"
-            onClick={() => setOrderBy({ height: "asc" })}
+            onClick={() => {
+              setOrderBy({ height: "asc" });
+              setSelectedOrderBy(["", "active", ""]);
+            }}
+            className={selectedOrderBy[1]}
           >
             height
           </Button>
           <Button
             variant="secondary"
-            onClick={() => setOrderBy({ weight: "asc" })}
+            onClick={() => {
+              setOrderBy({ weight: "asc" });
+              setSelectedOrderBy(["", "", "active"]);
+            }}
+            className={selectedOrderBy[2]}
           >
             weight
           </Button>
