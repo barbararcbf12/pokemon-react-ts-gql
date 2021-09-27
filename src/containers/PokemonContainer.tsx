@@ -100,14 +100,14 @@ function PokemonsContainer() {
   function previousPage() {
     if (page > 1) {
       setPage(page - 1);
-      setOffset(page * itemsPerPage - itemsPerPage + 1);
-    }
+      setOffset(page * itemsPerPage);
+    } else if (page === 1) setOffset(0);
   }
 
   function nextPage() {
     if (page < numberOfPages) {
       setPage(page + 1);
-      setOffset(page * itemsPerPage - itemsPerPage + 1);
+      setOffset(page * itemsPerPage);
     }
   }
   //
@@ -147,7 +147,12 @@ function PokemonsContainer() {
       <PokemonModal show={show} setShow={setShow} pokemon={selectedPokemon} />
       <Row xs={1} md={5} className="g-4">
         {pokemons?.map((pokemon: any) => (
-          <Col key={pokemon.id}>
+          <Col
+            key={pokemon.id}
+            style={{
+              display: "flex",
+            }}
+          >
             <Pokemon
               pokemon={pokemon}
               openModal={handleShow}

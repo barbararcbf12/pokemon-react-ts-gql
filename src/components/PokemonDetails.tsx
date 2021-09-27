@@ -29,7 +29,8 @@ function PokemonDetails(props: any) {
             <img
               src={props.image}
               alt={props.name}
-              style={{ width: "-webkit-fill-available" }}
+              style={{ aspectRatio: "1/1" }}
+              loading="lazy"
             />
           </Card.Header>
         </Card>
