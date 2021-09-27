@@ -33,6 +33,7 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
     <>
       <Card
         as="button"
+        data-testid={"pokemon-card"}
         onClick={() => {
           openModal();
           setSelectedPokemon(pokemon);
@@ -41,11 +42,12 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
           borderRadius: 10,
           boxShadow: "5px 5px 15px -3px rgba(0,0,0,0.61)",
         }}
+        aria-label={pokemon.name}
       >
-        <Card.Img variant="top" src={pokemonImage} />
+        <Card.Img variant="top" src={pokemonImage} alt={pokemon.name} />
         <Card.Body style={{ width: "100%" }}>
           <Card.Title>{pokemon.name}</Card.Title>
-          <ListGroup variant="flush">
+          <ListGroup variant="flush" as="ul">
             <ListGroup.Item as="li">
               <div
                 style={{
@@ -59,6 +61,8 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
                 <Badge bg="primary">weight: {pokemon.weight}</Badge>
               </div>
             </ListGroup.Item>
+          </ListGroup>
+          <ListGroup variant="flush">
             <ListGroup.Item variant="warning">
               <Card.Subtitle>
                 <div
