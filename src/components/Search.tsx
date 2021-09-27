@@ -16,10 +16,12 @@ export default function Search({ setSearchQuery }: Props) {
           placeholder="Search for a Pokemon"
           className="me-2"
           aria-label="Search"
+          data-testid={"search-field"}
         />
       </Col>
       <Col sm={2} className="my-1">
         <Button
+          data-testid={"search-button"}
           onClick={(e) => {
             setSearchQuery(search);
           }}

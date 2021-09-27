@@ -11,6 +11,7 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
   const [pokemonImage, setpokemonImage] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
     //I am fetching the image from a different endpoint here because from 'https://beta.pokeapi.co/graphql/v1beta'
     //is return null for 'sprites.other.official-artwork.front_default' for all pokemons
     //I have found the link below where someone says that there's a bug with the graphql engine
@@ -24,9 +25,12 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
         });
       let image =
         response?.sprites?.other?.["official-artwork"]?.["front_default"];
-      setpokemonImage(image);
+      if (isMounted) setpokemonImage(image);
     }
     fetchData(pokemon.id);
+    return () => {
+      isMounted = false;
+    };
   }, [pokemon.id]);
 
   return (
