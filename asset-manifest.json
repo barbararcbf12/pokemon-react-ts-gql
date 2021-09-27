@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/pokemon-react-ts-gql/static/css/main.f252046b.chunk.css",
-    "main.js": "/pokemon-react-ts-gql/static/js/main.c8ee865a.chunk.js",
-    "main.js.map": "/pokemon-react-ts-gql/static/js/main.c8ee865a.chunk.js.map",
+    "main.js": "/pokemon-react-ts-gql/static/js/main.a390b113.chunk.js",
+    "main.js.map": "/pokemon-react-ts-gql/static/js/main.a390b113.chunk.js.map",
     "runtime-main.js": "/pokemon-react-ts-gql/static/js/runtime-main.9b53b29b.js",
     "runtime-main.js.map": "/pokemon-react-ts-gql/static/js/runtime-main.9b53b29b.js.map",
     "static/css/2.c490997a.chunk.css": "/pokemon-react-ts-gql/static/css/2.c490997a.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.c490997a.chunk.css",
     "static/js/2.46c258ac.chunk.js",
     "static/css/main.f252046b.chunk.css",
-    "static/js/main.c8ee865a.chunk.js"
+    "static/js/main.a390b113.chunk.js"
   ]
 }
