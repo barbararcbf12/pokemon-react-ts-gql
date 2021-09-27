@@ -40,7 +40,16 @@ function PokemonsContainer() {
   const [offset, setOffset] = useState<number>(0);
 
   //Search states
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>(
+    JSON.parse(localStorage.getItem("searchQuery")!) || ""
+  );
+
+  React.useEffect(() => {
+    function updateSearchQuery() {
+      window.localStorage.setItem("searchQuery", JSON.stringify(searchQuery));
+    }
+    updateSearchQuery();
+  }, [searchQuery]);
 
   //Modal states & function
   const [show, setShow] = useState(false);

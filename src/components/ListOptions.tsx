@@ -29,13 +29,35 @@ function ListOptions(props: Props) {
     setSearchQuery,
   } = props;
 
-  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState([
-    "",
-    "active",
-    "",
-  ]);
+  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
+    JSON.parse(localStorage.getItem("selectedItemsPerPage")!) || [
+      "",
+      "active",
+      "",
+    ]
+  );
 
-  const [selectedOrderBy, setSelectedOrderBy] = useState(["active", "", ""]);
+  const [selectedOrderBy, setSelectedOrderBy] = useState<Array<string>>(
+    JSON.parse(localStorage.getItem("selectedOrderBy")!) || ["active", "", ""]
+  );
+
+  React.useEffect(() => {
+    function updateSelectedItemsPerPage() {
+      window.localStorage.setItem(
+        "selectedItemsPerPage",
+        JSON.stringify(selectedItemsPerPage)
+      );
+    }
+    updateSelectedOrderBy();
+    function updateSelectedOrderBy() {
+      window.localStorage.setItem(
+        "selectedOrderBy",
+        JSON.stringify(selectedOrderBy)
+      );
+    }
+    updateSelectedItemsPerPage();
+    updateSelectedOrderBy();
+  }, [selectedItemsPerPage, selectedOrderBy]);
 
   return (
     <Nav
