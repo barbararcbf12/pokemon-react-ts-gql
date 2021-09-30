@@ -1,25 +1,74 @@
-import React, { Dispatch } from "react";
-import { Form, Container, Col, Button } from "react-bootstrap";
+import React, { Dispatch, useState } from "react";
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Container,
+  Form,
+  ToggleButton,
+} from "react-bootstrap";
 
 type Props = {
   setSearchQuery: Dispatch<string>;
+  setSearchCriteria: Dispatch<string>;
+  searchCriteria: string;
 };
 
-export default function Search({ setSearchQuery }: Props) {
-  const [search, setSearch] = React.useState("");
+const radios = [
+  { name: "Name", value: "name" },
+  { name: "Ability", value: "ability" },
+];
+
+const ObjectStyles = {
+  label: {
+    padding: "0 0.5rem 0 0",
+    display: "flex",
+    alignItems: "center",
+  },
+};
+
+export default function Search({
+  setSearchQuery,
+  setSearchCriteria,
+  searchCriteria,
+}: Props) {
+  const [search, setSearch] = useState("");
 
   return (
     <Container>
-      <Col sm={10} className="my-1" style={{ paddingRight: 5 }}>
+      <Col sm={4} className="my-1" style={{ paddingRight: 5 }}>
+        <ButtonGroup className="mb-2">
+          <span style={ObjectStyles.label}> Search pokemons by:</span>
+          {radios.map((radio, idx) => (
+            <ToggleButton
+              key={idx}
+              id={`radio-${idx}`}
+              type="radio"
+              variant="primary"
+              name="radio"
+              value={radio.value}
+              checked={searchCriteria === radio.value}
+              onChange={(e) => setSearchCriteria(e.currentTarget.value)}
+            >
+              {radio.name}
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+      </Col>
+      <Col sm={7} className="my-1" style={{ paddingRight: 5 }}>
         <Form.Control
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search for a Pokemon"
+          placeholder={
+            searchCriteria === "name"
+              ? "Type a Pokemon name"
+              : "Type a Pokemon ability"
+          }
           className="me-2"
           aria-label="Search"
           data-testid={"search-field"}
         />
       </Col>
-      <Col sm={2} className="my-1">
+      <Col sm={1} className="my-1">
         <Button
           data-testid={"search-button"}
           onClick={(e) => {

@@ -2,13 +2,21 @@ query pokemons(
   $limit: Int
   $offset: Int
   $orderBy: [pokemon_v2_pokemon_order_by!]
-  $where: String
+  $pokemonName: String
+  $pokemonAbility: String
 ) {
   pokemon_v2_pokemon(
     limit: $limit
     offset: $offset
     order_by: $orderBy
-    where: { name: { _regex: $where } }
+    where: {
+      name: { _regex: $pokemonName }
+      _or: {
+        pokemon_v2_pokemonabilities: {
+          pokemon_v2_ability: { name: { _regex: $pokemonAbility } }
+        }
+      }
+    }
   ) {
     name
     id

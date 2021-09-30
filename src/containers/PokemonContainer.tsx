@@ -43,6 +43,7 @@ function PokemonsContainer() {
   const [searchQuery, setSearchQuery] = useState<string>(
     JSON.parse(localStorage.getItem("searchQuery")!) || ""
   );
+  const [searchCriteria, setSearchCriteria] = useState("name");
 
   React.useEffect(() => {
     function updateSearchQuery() {
@@ -67,7 +68,8 @@ function PokemonsContainer() {
       limit: itemsPerPage,
       offset,
       orderBy,
-      where: searchQuery,
+      pokemonName: searchCriteria === "name" ? searchQuery : "",
+      pokemonAbility: searchCriteria === "name" ? "" : searchQuery,
     },
   };
 
@@ -129,7 +131,11 @@ function PokemonsContainer() {
 
   return (
     <>
-      <Header setSearchQuery={setSearchQuery} />
+      <Header
+        setSearchQuery={setSearchQuery}
+        setSearchCriteria={setSearchCriteria}
+        searchCriteria={searchCriteria}
+      />
 
       <ListOptions
         setitemsPerPage={setitemsPerPage}

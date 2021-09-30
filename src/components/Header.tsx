@@ -4,20 +4,26 @@ import Search from "../components/Search";
 
 type Props = {
   setSearchQuery: Dispatch<string>;
+  setSearchCriteria: Dispatch<string>;
+  searchCriteria: string;
 };
 
 function Header(props: Props) {
-  const { setSearchQuery } = props;
+  const { setSearchQuery, searchCriteria, setSearchCriteria } = props;
 
   return (
     <>
       <Navbar bg="light" expand="lg" style={{ paddingBottom: "1rem" }}>
-        <Navbar.Brand href="#" style={{ width: "50%" }}>
+        <Navbar.Brand href="#" style={{ width: "30%" }}>
           POKEMON APP
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Search setSearchQuery={setSearchQuery} />
+          <Search
+            setSearchQuery={setSearchQuery}
+            setSearchCriteria={setSearchCriteria}
+            searchCriteria={searchCriteria}
+          />
         </Navbar.Collapse>
       </Navbar>
     </>

@@ -51724,7 +51724,8 @@ export type PokemonsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Array<Pokemon_V2_Pokemon_Order_By> | Pokemon_V2_Pokemon_Order_By>;
-  where?: Maybe<Scalars['String']>;
+  pokemonName?: Maybe<Scalars['String']>;
+  pokemonAbility?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -51768,12 +51769,12 @@ export type CountPokemonsQueryHookResult = ReturnType<typeof useCountPokemonsQue
 export type CountPokemonsLazyQueryHookResult = ReturnType<typeof useCountPokemonsLazyQuery>;
 export type CountPokemonsQueryResult = Apollo.QueryResult<CountPokemonsQuery, CountPokemonsQueryVariables>;
 export const PokemonsDocument = gql`
-    query pokemons($limit: Int, $offset: Int, $orderBy: [pokemon_v2_pokemon_order_by!], $where: String) {
+    query pokemons($limit: Int, $offset: Int, $orderBy: [pokemon_v2_pokemon_order_by!], $pokemonName: String, $pokemonAbility: String) {
   pokemon_v2_pokemon(
     limit: $limit
     offset: $offset
     order_by: $orderBy
-    where: {name: {_regex: $where}}
+    where: {name: {_regex: $pokemonName}, _or: {pokemon_v2_pokemonabilities: {pokemon_v2_ability: {name: {_regex: $pokemonAbility}}}}}
   ) {
     name
     id
@@ -51816,7 +51817,8 @@ export const PokemonsDocument = gql`
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *      orderBy: // value for 'orderBy'
- *      where: // value for 'where'
+ *      pokemonName: // value for 'pokemonName'
+ *      pokemonAbility: // value for 'pokemonAbility'
  *   },
  * });
  */
