@@ -96,6 +96,8 @@ function ListOptions(props: Props) {
             <Button
               variant="primary"
               onClick={() => {
+                setOffset(0);
+                setPage(1);
                 setSearchQuery("");
               }}
             >
