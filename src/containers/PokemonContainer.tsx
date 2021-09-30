@@ -80,6 +80,8 @@ function PokemonsContainer() {
     setPokemons(data?.pokemon_v2_pokemon ?? []);
   }, [data?.pokemon_v2_pokemon]);
 
+  const hasSearchMatches = pokemons?.length > 0;
+
   //Find total number of pages
   const {
     data: countData,
@@ -140,9 +142,10 @@ function PokemonsContainer() {
         numberOfPages={numberOfPages}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        hasSearchMatches={hasSearchMatches}
       />
 
-      {pokemons?.length > 0 && (!loading || !countLoading) ? (
+      {hasSearchMatches && (!loading || !countLoading) ? (
         <>
           <PokemonModal
             show={show}
@@ -184,6 +187,7 @@ function PokemonsContainer() {
         numberOfPages={numberOfPages}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        hasSearchMatches={hasSearchMatches}
       />
     </>
   );

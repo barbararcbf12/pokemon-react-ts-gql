@@ -2,6 +2,20 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { Badge, Button, ButtonGroup, Nav } from "react-bootstrap";
 import { ItemsPerPage } from "../containers/PokemonContainer";
 
+type Props = {
+  setitemsPerPage: Dispatch<SetStateAction<ItemsPerPage>>;
+  setOrderBy: Dispatch<SetStateAction<any>>;
+  previousPage: () => void;
+  nextPage: () => void;
+  page: number;
+  setNumberOfPages: Dispatch<SetStateAction<any>>;
+  totalNumberOfPokemons: number;
+  numberOfPages: number;
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+  hasSearchMatches: boolean;
+};
+
 const ObjectStyles = {
   nav: {
     padding: "1rem 0",
@@ -22,19 +36,6 @@ const ObjectStyles = {
   },
 };
 
-type Props = {
-  setitemsPerPage: Dispatch<SetStateAction<ItemsPerPage>>;
-  setOrderBy: Dispatch<SetStateAction<any>>;
-  previousPage: () => void;
-  nextPage: () => void;
-  page: number;
-  setNumberOfPages: Dispatch<SetStateAction<any>>;
-  totalNumberOfPokemons: number;
-  numberOfPages: number;
-  searchQuery: string;
-  setSearchQuery: Dispatch<SetStateAction<string>>;
-};
-
 function ListOptions(props: Props) {
   const {
     setitemsPerPage,
@@ -47,6 +48,7 @@ function ListOptions(props: Props) {
     numberOfPages,
     searchQuery,
     setSearchQuery,
+    hasSearchMatches,
   } = props;
 
   const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
@@ -101,92 +103,96 @@ function ListOptions(props: Props) {
           ""
         )}
       </Nav.Item>
-      <Nav.Item style={ObjectStyles.navItem}>
-        <span style={ObjectStyles.navItemSpan}>Items per page: </span>
-        <ButtonGroup aria-label="Items per page">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setitemsPerPage(10);
-              setNumberOfPages(Math.round(totalNumberOfPokemons / 10));
-              setSelectedItemsPerPage(["active", "", ""]);
-            }}
-            className={selectedItemsPerPage[0]}
-          >
-            10
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setitemsPerPage(20);
-              setNumberOfPages(Math.round(totalNumberOfPokemons / 20));
-              setSelectedItemsPerPage(["", "active", ""]);
-            }}
-            className={selectedItemsPerPage[1]}
-          >
-            20
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setitemsPerPage(50);
-              setNumberOfPages(Math.round(totalNumberOfPokemons / 50));
-              setSelectedItemsPerPage(["", "", "active"]);
-            }}
-            className={selectedItemsPerPage[2]}
-          >
-            50
-          </Button>
-        </ButtonGroup>
-      </Nav.Item>
-      <Nav.Item style={ObjectStyles.navItem}>
-        <span style={ObjectStyles.navItemSpan}>Order list by: </span>
-        <ButtonGroup aria-label="Order list by">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setOrderBy({ name: "asc" });
-              setSelectedOrderBy(["active", "", ""]);
-            }}
-            className={selectedOrderBy[0]}
-          >
-            name
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setOrderBy({ height: "asc" });
-              setSelectedOrderBy(["", "active", ""]);
-            }}
-            className={selectedOrderBy[1]}
-          >
-            height
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setOrderBy({ weight: "asc" });
-              setSelectedOrderBy(["", "", "active"]);
-            }}
-            className={selectedOrderBy[2]}
-          >
-            weight
-          </Button>
-        </ButtonGroup>
-      </Nav.Item>
-      <Nav.Item style={ObjectStyles.navItem}>
-        <span style={ObjectStyles.navItemSpan}>
-          Page: {page} of {numberOfPages}
-        </span>
-        <ButtonGroup aria-label="Order list by">
-          <Button variant="secondary" onClick={() => previousPage()}>
-            Previous
-          </Button>
-          <Button variant="secondary" onClick={() => nextPage()}>
-            Next
-          </Button>
-        </ButtonGroup>
-      </Nav.Item>
+      {hasSearchMatches ? (
+        <>
+          <Nav.Item style={ObjectStyles.navItem}>
+            <span style={ObjectStyles.navItemSpan}>Items per page: </span>
+            <ButtonGroup aria-label="Items per page">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setitemsPerPage(10);
+                  setNumberOfPages(Math.round(totalNumberOfPokemons / 10));
+                  setSelectedItemsPerPage(["active", "", ""]);
+                }}
+                className={selectedItemsPerPage[0]}
+              >
+                10
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setitemsPerPage(20);
+                  setNumberOfPages(Math.round(totalNumberOfPokemons / 20));
+                  setSelectedItemsPerPage(["", "active", ""]);
+                }}
+                className={selectedItemsPerPage[1]}
+              >
+                20
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setitemsPerPage(50);
+                  setNumberOfPages(Math.round(totalNumberOfPokemons / 50));
+                  setSelectedItemsPerPage(["", "", "active"]);
+                }}
+                className={selectedItemsPerPage[2]}
+              >
+                50
+              </Button>
+            </ButtonGroup>
+          </Nav.Item>
+          <Nav.Item style={ObjectStyles.navItem}>
+            <span style={ObjectStyles.navItemSpan}>Order list by: </span>
+            <ButtonGroup aria-label="Order list by">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setOrderBy({ name: "asc" });
+                  setSelectedOrderBy(["active", "", ""]);
+                }}
+                className={selectedOrderBy[0]}
+              >
+                name
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setOrderBy({ height: "asc" });
+                  setSelectedOrderBy(["", "active", ""]);
+                }}
+                className={selectedOrderBy[1]}
+              >
+                height
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setOrderBy({ weight: "asc" });
+                  setSelectedOrderBy(["", "", "active"]);
+                }}
+                className={selectedOrderBy[2]}
+              >
+                weight
+              </Button>
+            </ButtonGroup>
+          </Nav.Item>
+          <Nav.Item style={ObjectStyles.navItem}>
+            <span style={ObjectStyles.navItemSpan}>
+              Page: {page} of {numberOfPages}
+            </span>
+            <ButtonGroup aria-label="Order list by">
+              <Button variant="secondary" onClick={() => previousPage()}>
+                Previous
+              </Button>
+              <Button variant="secondary" onClick={() => nextPage()}>
+                Next
+              </Button>
+            </ButtonGroup>
+          </Nav.Item>
+        </>
+      ) : null}
     </Nav>
   );
 }
