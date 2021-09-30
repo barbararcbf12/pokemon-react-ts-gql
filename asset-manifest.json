@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/pokemon-react-ts-gql/static/css/main.e5d8eeca.chunk.css",
-    "main.js": "/pokemon-react-ts-gql/static/js/main.e7c896cd.chunk.js",
-    "main.js.map": "/pokemon-react-ts-gql/static/js/main.e7c896cd.chunk.js.map",
-    "runtime-main.js": "/pokemon-react-ts-gql/static/js/runtime-main.9b53b29b.js",
-    "runtime-main.js.map": "/pokemon-react-ts-gql/static/js/runtime-main.9b53b29b.js.map",
+    "main.js": "/pokemon-react-ts-gql/static/js/main.bdcfa5e1.chunk.js",
+    "main.js.map": "/pokemon-react-ts-gql/static/js/main.bdcfa5e1.chunk.js.map",
+    "runtime-main.js": "/pokemon-react-ts-gql/static/js/runtime-main.ee6274d4.js",
+    "runtime-main.js.map": "/pokemon-react-ts-gql/static/js/runtime-main.ee6274d4.js.map",
     "static/css/2.c490997a.chunk.css": "/pokemon-react-ts-gql/static/css/2.c490997a.chunk.css",
-    "static/js/2.46c258ac.chunk.js": "/pokemon-react-ts-gql/static/js/2.46c258ac.chunk.js",
-    "static/js/2.46c258ac.chunk.js.map": "/pokemon-react-ts-gql/static/js/2.46c258ac.chunk.js.map",
-    "static/js/3.f2ea2999.chunk.js": "/pokemon-react-ts-gql/static/js/3.f2ea2999.chunk.js",
-    "static/js/3.f2ea2999.chunk.js.map": "/pokemon-react-ts-gql/static/js/3.f2ea2999.chunk.js.map",
+    "static/js/2.b1de09b2.chunk.js": "/pokemon-react-ts-gql/static/js/2.b1de09b2.chunk.js",
+    "static/js/2.b1de09b2.chunk.js.map": "/pokemon-react-ts-gql/static/js/2.b1de09b2.chunk.js.map",
+    "static/js/3.71249dce.chunk.js": "/pokemon-react-ts-gql/static/js/3.71249dce.chunk.js",
+    "static/js/3.71249dce.chunk.js.map": "/pokemon-react-ts-gql/static/js/3.71249dce.chunk.js.map",
     "index.html": "/pokemon-react-ts-gql/index.html",
     "static/css/2.c490997a.chunk.css.map": "/pokemon-react-ts-gql/static/css/2.c490997a.chunk.css.map",
     "static/css/main.e5d8eeca.chunk.css.map": "/pokemon-react-ts-gql/static/css/main.e5d8eeca.chunk.css.map",
-    "static/js/2.46c258ac.chunk.js.LICENSE.txt": "/pokemon-react-ts-gql/static/js/2.46c258ac.chunk.js.LICENSE.txt"
+    "static/js/2.b1de09b2.chunk.js.LICENSE.txt": "/pokemon-react-ts-gql/static/js/2.b1de09b2.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.9b53b29b.js",
+    "static/js/runtime-main.ee6274d4.js",
     "static/css/2.c490997a.chunk.css",
-    "static/js/2.46c258ac.chunk.js",
+    "static/js/2.b1de09b2.chunk.js",
     "static/css/main.e5d8eeca.chunk.css",
-    "static/js/main.e7c896cd.chunk.js"
+    "static/js/main.bdcfa5e1.chunk.js"
   ]
 }
