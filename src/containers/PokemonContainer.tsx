@@ -74,12 +74,10 @@ function PokemonsContainer() {
   //Fetch pokemons from Graphql api
   const { data, error, loading } = usePokemonsQuery(options);
 
-  const [pokemons, setPokemons] = useState<any>();
+  const [pokemons, setPokemons] = useState<any>([]);
 
   useEffect(() => {
-    if (data?.pokemon_v2_pokemon && data?.pokemon_v2_pokemon?.length > 0) {
-      setPokemons(data?.pokemon_v2_pokemon);
-    }
+    setPokemons(data?.pokemon_v2_pokemon ?? []);
   }, [data?.pokemon_v2_pokemon]);
 
   //Find total number of pages
@@ -144,23 +142,37 @@ function PokemonsContainer() {
         setSearchQuery={setSearchQuery}
       />
 
-      <PokemonModal show={show} setShow={setShow} pokemon={selectedPokemon} />
-      <Row xs={1} md={5} className="g-4">
-        {pokemons?.map((pokemon: any) => (
-          <Col
-            key={pokemon.id}
-            style={{
-              display: "flex",
-            }}
-          >
-            <Pokemon
-              pokemon={pokemon}
-              openModal={handleShow}
-              setSelectedPokemon={setSelectedPokemon}
-            />
-          </Col>
-        ))}
-      </Row>
+      {pokemons?.length > 0 && (!loading || !countLoading) ? (
+        <>
+          <PokemonModal
+            show={show}
+            setShow={setShow}
+            pokemon={selectedPokemon}
+          />
+          <Row xs={1} md={5} className="g-4">
+            {pokemons?.map((pokemon: any) => (
+              <Col
+                key={pokemon.id}
+                style={{
+                  display: "flex",
+                }}
+              >
+                <Pokemon
+                  pokemon={pokemon}
+                  openModal={handleShow}
+                  setSelectedPokemon={setSelectedPokemon}
+                />
+              </Col>
+            ))}
+          </Row>
+        </>
+      ) : (
+        <div
+          style={{ minHeight: "20vh", display: "flex", alignItems: "center" }}
+        >
+          <h5>There are no pokemons matching your serch</h5>
+        </div>
+      )}
       <ListOptions
         setitemsPerPage={setitemsPerPage}
         setOrderBy={setOrderBy}
