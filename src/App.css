@@ -32,17 +32,6 @@ nav {
   justify-content: space-between;
 }
 
-h5 {
-  font-size: 2rem;
-}
-
-/* OVEWRITE BOOTSTRAP STYLE */
-/* @media only screen and (device-width: 768px) and (orientation: portrait) {
-  h5 {
-    font-size: 1rem;
-  }
-} */
-
 /* POKEMON APP
 =========================================== */
 .container {

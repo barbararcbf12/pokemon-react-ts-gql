@@ -2,6 +2,26 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { Badge, Button, ButtonGroup, Nav } from "react-bootstrap";
 import { ItemsPerPage } from "../containers/PokemonContainer";
 
+const ObjectStyles = {
+  nav: {
+    padding: "1rem 0",
+  },
+  navItem: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    padding: "0.25rem 0",
+  },
+  navItemSearch: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  navItemSpan: {
+    padding: "0 0.5rem 0 0",
+  },
+};
+
 type Props = {
   setitemsPerPage: Dispatch<SetStateAction<ItemsPerPage>>;
   setOrderBy: Dispatch<SetStateAction<any>>;
@@ -60,23 +80,11 @@ function ListOptions(props: Props) {
   }, [selectedItemsPerPage, selectedOrderBy]);
 
   return (
-    <Nav
-      fill
-      style={{
-        padding: "1rem 0",
-      }}
-    >
-      <Nav.Item
-        style={{
-          padding: "0 0 0.5rem 0",
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-        }}
-      >
+    <Nav fill style={ObjectStyles.nav}>
+      <Nav.Item style={ObjectStyles.navItemSearch}>
         {searchQuery !== "" ? (
           <>
-            <span> You've searched for: </span>
+            <span style={ObjectStyles.navItemSpan}>You've searched for: </span>
             <Button
               variant="primary"
               onClick={() => {
@@ -93,21 +101,8 @@ function ListOptions(props: Props) {
           ""
         )}
       </Nav.Item>
-      <Nav.Item
-        style={{
-          padding: "0 0 0.5rem 0",
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-        }}
-      >
-        <span
-          style={{
-            padding: "0 0.5rem 0 0",
-          }}
-        >
-          Items per page:{" "}
-        </span>
+      <Nav.Item style={ObjectStyles.navItem}>
+        <span style={ObjectStyles.navItemSpan}>Items per page: </span>
         <ButtonGroup aria-label="Items per page">
           <Button
             variant="secondary"
@@ -144,21 +139,8 @@ function ListOptions(props: Props) {
           </Button>
         </ButtonGroup>
       </Nav.Item>
-      <Nav.Item
-        style={{
-          padding: "0 0 0.5rem 0",
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-        }}
-      >
-        <span
-          style={{
-            padding: "0 0.5rem 0 0",
-          }}
-        >
-          Order list by:{" "}
-        </span>
+      <Nav.Item style={ObjectStyles.navItem}>
+        <span style={ObjectStyles.navItemSpan}>Order list by: </span>
         <ButtonGroup aria-label="Order list by">
           <Button
             variant="secondary"
@@ -192,20 +174,10 @@ function ListOptions(props: Props) {
           </Button>
         </ButtonGroup>
       </Nav.Item>
-      <Nav.Item
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-        }}
-      >
-        <span
-          style={{
-            padding: "0 0.5rem 0 0",
-          }}
-        >
+      <Nav.Item style={ObjectStyles.navItem}>
+        <span style={ObjectStyles.navItemSpan}>
           Page: {page} of {numberOfPages}
-        </span>{" "}
+        </span>
         <ButtonGroup aria-label="Order list by">
           <Button variant="secondary" onClick={() => previousPage()}>
             Previous
