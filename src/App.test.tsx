@@ -22,3 +22,14 @@ test("render search results", async () => {
   userEvent.click(searchButton);
   expect(await screen.findByText("gengar-mega")).toBeInTheDocument();
 });
+
+test("render search results when there are no matches", async () => {
+  render(<App />);
+  let searchField = await screen.findByTestId("search-field");
+  const searchButton = await screen.findByTestId("search-button");
+  fireEvent.change(searchField, { target: { value: "xxx" } });
+  userEvent.click(searchButton);
+  expect(
+    await screen.findByText("There are no pokemons matching your serch")
+  ).toBeInTheDocument();
+});
