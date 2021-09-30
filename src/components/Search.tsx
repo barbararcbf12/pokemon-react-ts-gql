@@ -12,6 +12,8 @@ type Props = {
   setSearchQuery: Dispatch<string>;
   setSearchCriteria: Dispatch<string>;
   searchCriteria: string;
+  setOffset: Dispatch<number>;
+  setPage: Dispatch<number>;
 };
 
 const radios = [
@@ -31,6 +33,8 @@ export default function Search({
   setSearchQuery,
   setSearchCriteria,
   searchCriteria,
+  setOffset,
+  setPage,
 }: Props) {
   const [search, setSearch] = useState("");
 
@@ -48,7 +52,9 @@ export default function Search({
               name="radio"
               value={radio.value}
               checked={searchCriteria === radio.value}
-              onChange={(e) => setSearchCriteria(e.currentTarget.value)}
+              onChange={(e) => {
+                setSearchCriteria(e.currentTarget.value);
+              }}
             >
               {radio.name}
             </ToggleButton>
@@ -72,6 +78,8 @@ export default function Search({
         <Button
           data-testid={"search-button"}
           onClick={(e) => {
+            setOffset(0);
+            setPage(1);
             setSearchQuery(search.toLowerCase());
           }}
         >

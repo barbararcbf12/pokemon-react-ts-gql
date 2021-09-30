@@ -63,6 +63,7 @@ function PokemonsContainer() {
   //State to change order_by criteria
   const [orderBy, setOrderBy] = useState<any>({ name: "asc" });
 
+  //Fetch pokemons from Graphql api
   const options = {
     variables: {
       limit: itemsPerPage,
@@ -73,14 +74,33 @@ function PokemonsContainer() {
     },
   };
 
-  //Fetch pokemons from Graphql api
   const { data, error, loading } = usePokemonsQuery(options);
 
   const [pokemons, setPokemons] = useState<any>([]);
 
+  //Fetch NEXT PAGE from Graphql api
+  const nextPageOptions = {
+    variables: {
+      limit: itemsPerPage,
+      offset: offset + itemsPerPage,
+      orderBy,
+      pokemonName: searchCriteria === "name" ? searchQuery : "",
+      pokemonAbility: searchCriteria === "name" ? "" : searchQuery,
+    },
+  };
+  const { data: dataNextPage } = usePokemonsQuery(nextPageOptions);
+
+  const [hasNextPage, setHasNextPage] = useState(true);
+
   useEffect(() => {
     setPokemons(data?.pokemon_v2_pokemon ?? []);
-  }, [data?.pokemon_v2_pokemon]);
+    let nextPage =
+      dataNextPage?.pokemon_v2_pokemon &&
+      dataNextPage?.pokemon_v2_pokemon?.length > 0
+        ? true
+        : false;
+    setHasNextPage(nextPage);
+  }, [data?.pokemon_v2_pokemon, dataNextPage?.pokemon_v2_pokemon]);
 
   const hasSearchMatches = pokemons?.length > 0;
 
@@ -109,7 +129,7 @@ function PokemonsContainer() {
   function nextPage() {
     if (page < numberOfPages) {
       setPage(page + 1);
-      setOffset(page * itemsPerPage);
+      setOffset(offset + itemsPerPage);
     }
   }
   //
@@ -135,6 +155,8 @@ function PokemonsContainer() {
         setSearchQuery={setSearchQuery}
         setSearchCriteria={setSearchCriteria}
         searchCriteria={searchCriteria}
+        setOffset={setOffset}
+        setPage={setPage}
       />
 
       <ListOptions
@@ -149,6 +171,9 @@ function PokemonsContainer() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         hasSearchMatches={hasSearchMatches}
+        hasNextPage={hasNextPage}
+        setOffset={setOffset}
+        setPage={setPage}
       />
 
       {hasSearchMatches && (!loading || !countLoading) ? (
@@ -194,6 +219,9 @@ function PokemonsContainer() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         hasSearchMatches={hasSearchMatches}
+        hasNextPage={hasNextPage}
+        setOffset={setOffset}
+        setPage={setPage}
       />
     </>
   );

@@ -14,6 +14,9 @@ type Props = {
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
   hasSearchMatches: boolean;
+  hasNextPage: boolean;
+  setOffset: Dispatch<number>;
+  setPage: Dispatch<number>;
 };
 
 const ObjectStyles = {
@@ -49,6 +52,9 @@ function ListOptions(props: Props) {
     searchQuery,
     setSearchQuery,
     hasSearchMatches,
+    hasNextPage,
+    setOffset,
+    setPage,
   } = props;
 
   const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
@@ -111,6 +117,8 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setOffset(0);
+                  setPage(1);
                   setitemsPerPage(10);
                   setNumberOfPages(Math.round(totalNumberOfPokemons / 10));
                   setSelectedItemsPerPage(["active", "", ""]);
@@ -122,6 +130,8 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setOffset(0);
+                  setPage(1);
                   setitemsPerPage(20);
                   setNumberOfPages(Math.round(totalNumberOfPokemons / 20));
                   setSelectedItemsPerPage(["", "active", ""]);
@@ -133,6 +143,8 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setOffset(0);
+                  setPage(1);
                   setitemsPerPage(50);
                   setNumberOfPages(Math.round(totalNumberOfPokemons / 50));
                   setSelectedItemsPerPage(["", "", "active"]);
@@ -149,6 +161,8 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setOffset(0);
+                  setPage(1);
                   setOrderBy({ name: "asc" });
                   setSelectedOrderBy(["active", "", ""]);
                 }}
@@ -159,6 +173,8 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setOffset(0);
+                  setPage(1);
                   setOrderBy({ height: "asc" });
                   setSelectedOrderBy(["", "active", ""]);
                 }}
@@ -169,6 +185,8 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setOffset(0);
+                  setPage(1);
                   setOrderBy({ weight: "asc" });
                   setSelectedOrderBy(["", "", "active"]);
                 }}
@@ -179,14 +197,24 @@ function ListOptions(props: Props) {
             </ButtonGroup>
           </Nav.Item>
           <Nav.Item style={ObjectStyles.navItem}>
-            <span style={ObjectStyles.navItemSpan}>
-              Page: {page} of {numberOfPages}
-            </span>
+            {searchQuery === "" ? (
+              <span style={ObjectStyles.navItemSpan}>
+                Page: {page} of {numberOfPages}
+              </span>
+            ) : null}
             <ButtonGroup aria-label="Order list by">
-              <Button variant="secondary" onClick={() => previousPage()}>
+              <Button
+                variant="secondary"
+                onClick={() => previousPage()}
+                disabled={page === 1 ? true : false}
+              >
                 Previous
               </Button>
-              <Button variant="secondary" onClick={() => nextPage()}>
+              <Button
+                variant="secondary"
+                onClick={() => nextPage()}
+                disabled={hasNextPage ? false : true}
+              >
                 Next
               </Button>
             </ButtonGroup>
