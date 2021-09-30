@@ -32,10 +32,16 @@ nav {
   justify-content: space-between;
 }
 
-/* OVEWRITE BOOTSTRAP STYLE */
-.list-group-item {
-  padding: 0.5rem 0;
+h5 {
+  font-size: 2rem;
 }
+
+/* OVEWRITE BOOTSTRAP STYLE */
+/* @media only screen and (device-width: 768px) and (orientation: portrait) {
+  h5 {
+    font-size: 1rem;
+  }
+} */
 
 /* POKEMON APP
 =========================================== */
