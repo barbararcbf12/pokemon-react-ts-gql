@@ -27,6 +27,7 @@ const ObjectStyles = {
     display: "flex",
     alignItems: "center",
   },
+  col: { paddingRight: 5 },
 };
 
 export default function Search({
@@ -40,7 +41,7 @@ export default function Search({
 
   return (
     <Container>
-      <Col sm={4} className="my-1" style={{ paddingRight: 5 }}>
+      <Col sm={4} className="my-1" style={ObjectStyles.col}>
         <ButtonGroup className="mb-2">
           <span style={ObjectStyles.label}> Search pokemons by:</span>
           {radios.map((radio, idx) => (
@@ -61,7 +62,7 @@ export default function Search({
           ))}
         </ButtonGroup>
       </Col>
-      <Col sm={7} className="my-1" style={{ paddingRight: 5 }}>
+      <Col sm={7} className="my-1" style={ObjectStyles.col}>
         <Form.Control
           onChange={(e) => setSearch(e.target.value)}
           placeholder={

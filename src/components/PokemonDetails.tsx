@@ -20,33 +20,33 @@ export type PokemonStat = {
   };
 };
 
+const ObjectStyles = {
+  card: { marginBottom: 5 },
+  image: { aspectRatio: "1/1" },
+  badge: { margin: 1 },
+};
+
 function PokemonDetails(props: any) {
   return (
     <Row>
       <Col xs={12} md={6}>
-        <Card style={{ marginBottom: 5 }}>
+        <Card style={ObjectStyles.card}>
           <Card.Header>
             <img
               src={props.image}
               alt={props.name}
-              style={{ aspectRatio: "1/1" }}
+              style={ObjectStyles.image}
               loading="lazy"
             />
           </Card.Header>
         </Card>
       </Col>
       <Col xs={12} md={6}>
-        <Card style={{ marginBottom: 5 }}>
+        <Card style={ObjectStyles.card}>
           <Card.Body>
             <h5>Abilities</h5>
             {props.abilities?.map((ability: PokemonAbilities, key: string) => (
-              <Badge
-                key={key}
-                bg="secondary"
-                style={{
-                  margin: 1,
-                }}
-              >
+              <Badge key={key} bg="secondary" style={ObjectStyles.badge}>
                 {ability?.pokemon_v2_ability?.name}
               </Badge>
             ))}

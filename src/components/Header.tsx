@@ -10,6 +10,12 @@ type Props = {
   setPage: Dispatch<number>;
 };
 
+const ObjectStyles = {
+  navBar: { paddingBottom: "1rem" },
+  navBarBrand: { width: "30%" },
+  col: { paddingRight: 5 },
+};
+
 function Header(props: Props) {
   const {
     setSearchQuery,
@@ -21,8 +27,8 @@ function Header(props: Props) {
 
   return (
     <>
-      <Navbar bg="light" expand="lg" style={{ paddingBottom: "1rem" }}>
-        <Navbar.Brand href="#" style={{ width: "30%" }}>
+      <Navbar bg="light" expand="lg" style={ObjectStyles.navBar}>
+        <Navbar.Brand href="#" style={ObjectStyles.navBarBrand}>
           POKEMON APP
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

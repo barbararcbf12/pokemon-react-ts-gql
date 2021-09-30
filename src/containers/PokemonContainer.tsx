@@ -33,6 +33,13 @@ export type PokemonSearch = {
   types: Array<PokemonType>;
 };
 
+const ObjectStyles = {
+  containerCol: {
+    display: "flex",
+  },
+  noResults: { minHeight: "20vh", display: "flex", alignItems: "center" },
+};
+
 function PokemonsContainer() {
   //Pagination states & functions
   const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(20);
@@ -185,12 +192,7 @@ function PokemonsContainer() {
           />
           <Row xs={1} md={5} className="g-4">
             {pokemons?.map((pokemon: any) => (
-              <Col
-                key={pokemon.id}
-                style={{
-                  display: "flex",
-                }}
-              >
+              <Col key={pokemon.id} style={ObjectStyles.containerCol}>
                 <Pokemon
                   pokemon={pokemon}
                   openModal={handleShow}
@@ -201,9 +203,7 @@ function PokemonsContainer() {
           </Row>
         </>
       ) : (
-        <div
-          style={{ minHeight: "20vh", display: "flex", alignItems: "center" }}
-        >
+        <div style={ObjectStyles.noResults}>
           <h5>There are no pokemons matching your serch</h5>
         </div>
       )}
