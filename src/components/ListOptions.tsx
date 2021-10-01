@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Badge, Button, ButtonGroup, Nav } from "react-bootstrap";
 import { ItemsPerPage } from "../containers/PokemonContainer";
 
@@ -17,6 +17,10 @@ type Props = {
   hasNextPage: boolean;
   setOffset: Dispatch<number>;
   setPage: Dispatch<number>;
+  setSelectedOrderBy: Dispatch<any>;
+  selectedOrderBy: any;
+  setSelectedItemsPerPage: Dispatch<any>;
+  selectedItemsPerPage: any;
 };
 
 const ObjectStyles = {
@@ -55,19 +59,11 @@ function ListOptions(props: Props) {
     hasNextPage,
     setOffset,
     setPage,
+    setSelectedOrderBy,
+    selectedOrderBy,
+    selectedItemsPerPage,
+    setSelectedItemsPerPage,
   } = props;
-
-  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
-    JSON.parse(localStorage.getItem("selectedItemsPerPage")!) || [
-      "",
-      "active",
-      "",
-    ]
-  );
-
-  const [selectedOrderBy, setSelectedOrderBy] = useState<Array<string>>(
-    JSON.parse(localStorage.getItem("selectedOrderBy")!) || ["active", "", ""]
-  );
 
   React.useEffect(() => {
     function updateSelectedItemsPerPage() {
@@ -76,7 +72,7 @@ function ListOptions(props: Props) {
         JSON.stringify(selectedItemsPerPage)
       );
     }
-    updateSelectedOrderBy();
+
     function updateSelectedOrderBy() {
       window.localStorage.setItem(
         "selectedOrderBy",
@@ -119,11 +115,11 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setSelectedItemsPerPage(["active", "", ""]);
                   setOffset(0);
                   setPage(1);
                   setitemsPerPage(10);
                   setNumberOfPages(Math.round(totalNumberOfPokemons / 10));
-                  setSelectedItemsPerPage(["active", "", ""]);
                 }}
                 className={selectedItemsPerPage[0]}
               >
@@ -132,11 +128,11 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setSelectedItemsPerPage(["", "active", ""]);
                   setOffset(0);
                   setPage(1);
                   setitemsPerPage(20);
                   setNumberOfPages(Math.round(totalNumberOfPokemons / 20));
-                  setSelectedItemsPerPage(["", "active", ""]);
                 }}
                 className={selectedItemsPerPage[1]}
               >
@@ -145,11 +141,11 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setSelectedItemsPerPage(["", "", "active"]);
                   setOffset(0);
                   setPage(1);
                   setitemsPerPage(50);
                   setNumberOfPages(Math.round(totalNumberOfPokemons / 50));
-                  setSelectedItemsPerPage(["", "", "active"]);
                 }}
                 className={selectedItemsPerPage[2]}
               >
@@ -163,10 +159,10 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setSelectedOrderBy(["active", "", ""]);
                   setOffset(0);
                   setPage(1);
                   setOrderBy({ name: "asc" });
-                  setSelectedOrderBy(["active", "", ""]);
                 }}
                 className={selectedOrderBy[0]}
               >
@@ -175,10 +171,10 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setSelectedOrderBy(["", "active", ""]);
                   setOffset(0);
                   setPage(1);
                   setOrderBy({ height: "asc" });
-                  setSelectedOrderBy(["", "active", ""]);
                 }}
                 className={selectedOrderBy[1]}
               >
@@ -187,10 +183,10 @@ function ListOptions(props: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
+                  setSelectedOrderBy(["", "", "active"]);
                   setOffset(0);
                   setPage(1);
                   setOrderBy({ weight: "asc" });
-                  setSelectedOrderBy(["", "", "active"]);
                 }}
                 className={selectedOrderBy[2]}
               >

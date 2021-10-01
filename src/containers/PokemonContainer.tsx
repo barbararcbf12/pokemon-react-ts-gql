@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Spinner, Alert, Row, Col } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
-import Pokemon from "../components/Pokemon";
+import PokemonsList from "../components/PokemonsList";
 import ListOptions from "../components/ListOptions";
 import Header from "../components/Header";
 import type {
@@ -9,7 +9,6 @@ import type {
   PokemonType,
   PokemonStat,
 } from "../components/PokemonDetails";
-import PokemonModal from "../components/PokemonModal";
 
 export type ItemsPerPage = 10 | 20 | 50;
 
@@ -41,10 +40,52 @@ const ObjectStyles = {
 };
 
 function PokemonsContainer() {
+  const [selectedOrderBy, setSelectedOrderBy] = useState<Array<string>>(
+    JSON.parse(localStorage.getItem("selectedOrderBy")!) || ["active", "", ""]
+  );
+
+  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
+    JSON.parse(localStorage.getItem("selectedItemsPerPage")!) || [
+      "",
+      "active",
+      "",
+    ]
+  );
+
   //Pagination states & functions
-  const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(20);
-  const [page, setPage] = useState<number>(1);
-  const [offset, setOffset] = useState<number>(0);
+  const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(
+    JSON.parse(localStorage.getItem("itemsPerPage")!) || 20
+  );
+  const [page, setPage] = useState<number>(
+    JSON.parse(localStorage.getItem("page")!) || 1
+  );
+  const [offset, setOffset] = useState<number>(
+    JSON.parse(localStorage.getItem("offset")!) || 0
+  );
+
+  //State to change order_by criteria
+  const [orderBy, setOrderBy] = useState<any>(
+    JSON.parse(localStorage.getItem("orderBy")!) || { name: "asc" }
+  );
+
+  React.useEffect(() => {
+    function keepChoiceItemsPerPage() {
+      window.localStorage.setItem("itemsPerPage", JSON.stringify(itemsPerPage));
+    }
+    function keepChoiceOrderBy() {
+      window.localStorage.setItem("orderBy", JSON.stringify(orderBy));
+    }
+    function keepChoicePage() {
+      window.localStorage.setItem("page", JSON.stringify(page));
+    }
+    function keepChoiceOffset() {
+      window.localStorage.setItem("offset", JSON.stringify(offset));
+    }
+    keepChoiceItemsPerPage();
+    keepChoiceOrderBy();
+    keepChoicePage();
+    keepChoiceOffset();
+  }, [itemsPerPage, offset, orderBy, page]);
 
   //Search states
   const [searchQuery, setSearchQuery] = useState<string>(
@@ -66,9 +107,6 @@ function PokemonsContainer() {
     setShow(true);
   }
   //
-
-  //State to change order_by criteria
-  const [orderBy, setOrderBy] = useState<any>({ name: "asc" });
 
   //Fetch pokemons from Graphql api
   const options = {
@@ -181,27 +219,21 @@ function PokemonsContainer() {
         hasNextPage={hasNextPage}
         setOffset={setOffset}
         setPage={setPage}
+        setSelectedOrderBy={setSelectedOrderBy}
+        selectedOrderBy={selectedOrderBy}
+        setSelectedItemsPerPage={setSelectedItemsPerPage}
+        selectedItemsPerPage={selectedItemsPerPage}
       />
 
       {hasSearchMatches && (!loading || !countLoading) ? (
-        <>
-          <PokemonModal
-            show={show}
-            setShow={setShow}
-            pokemon={selectedPokemon}
-          />
-          <Row xs={1} md={5} className="g-4">
-            {pokemons?.map((pokemon: any) => (
-              <Col key={pokemon.id} style={ObjectStyles.containerCol}>
-                <Pokemon
-                  pokemon={pokemon}
-                  openModal={handleShow}
-                  setSelectedPokemon={setSelectedPokemon}
-                />
-              </Col>
-            ))}
-          </Row>
-        </>
+        <PokemonsList
+          show={show}
+          setShow={setShow}
+          selectedPokemon={selectedPokemon}
+          pokemons={pokemons}
+          setSelectedPokemon={setSelectedPokemon}
+          handleShow={handleShow}
+        />
       ) : (
         <div style={ObjectStyles.noResults}>
           <h5>There are no pokemons matching your serch</h5>
@@ -222,6 +254,10 @@ function PokemonsContainer() {
         hasNextPage={hasNextPage}
         setOffset={setOffset}
         setPage={setPage}
+        setSelectedOrderBy={setSelectedOrderBy}
+        selectedOrderBy={selectedOrderBy}
+        setSelectedItemsPerPage={setSelectedItemsPerPage}
+        selectedItemsPerPage={selectedItemsPerPage}
       />
     </>
   );
