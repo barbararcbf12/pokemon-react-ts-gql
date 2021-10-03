@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import PokemonDetails from "../components/PokemonDetails";
+import { fetchPokemonImage } from "../utils/getPokemonImage";
 
-import noImge from "../resources/no-image.jpg";
+import noImage from "../resources/no-image.jpg";
 
 type Props = {
   show: boolean;
@@ -16,25 +17,18 @@ function PokemonModal(props: Props) {
   const [pokemonImage, setpokemonImage] = useState("");
 
   useEffect(() => {
-    //I am fetching the image from a different endpoint here because from 'https://beta.pokeapi.co/graphql/v1beta'
-    //is return null for 'sprites.other.official-artwork.front_default' for all pokemons
-    //I have found the link below where someone says that there's a bug with the graphql engine
-    //Link: https://gitmemory.com/issue/PokeAPI/pokeapi/614/826330809
-    async function fetchData(id: number) {
-      let response: any = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-        .then((response) => response.json())
-        .then((data) => data)
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      let image =
-        response?.sprites?.other?.["official-artwork"]?.["front_default"] ??
-        noImge;
-      setpokemonImage(image);
-    }
+    let image;
     if (pokemon && pokemon?.id) {
-      fetchData(pokemon.id);
+      image = fetchPokemonImage(pokemon.id);
     }
+
+    image
+      ?.then((img) => {
+        img ? setpokemonImage(img) : setpokemonImage(noImage);
+      })
+      .catch(() => {
+        console.log("Error");
+      });
   }, [pokemon]);
 
   return (
