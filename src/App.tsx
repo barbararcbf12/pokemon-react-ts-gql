@@ -1,6 +1,7 @@
 import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import PokemonsContainer from "./containers/PokemonContainer";
+import { AppProvider } from "./contexts/AppContext";
 
 function App() {
   const client = new ApolloClient({
@@ -10,7 +11,9 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <PokemonsContainer />
+      <AppProvider>
+        <PokemonsContainer />
+      </AppProvider>
     </ApolloProvider>
   );
 }

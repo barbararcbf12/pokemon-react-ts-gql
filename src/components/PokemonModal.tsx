@@ -17,18 +17,23 @@ function PokemonModal(props: Props) {
   const [pokemonImage, setpokemonImage] = useState("");
 
   useEffect(() => {
-    let image;
-    if (pokemon && pokemon?.id) {
-      image = fetchPokemonImage(pokemon.id);
-    }
+    let isMounted = true;
 
-    image
-      ?.then((img) => {
-        img ? setpokemonImage(img) : setpokemonImage(noImage);
-      })
-      .catch(() => {
-        console.log("Error");
-      });
+    let image;
+    if (pokemon && pokemon?.id && isMounted) {
+      image = fetchPokemonImage(pokemon.id);
+
+      image
+        ?.then((img) => {
+          img ? setpokemonImage(img) : setpokemonImage(noImage);
+        })
+        .catch(() => {
+          console.log("Error");
+        });
+    }
+    return () => {
+      isMounted = false;
+    };
   }, [pokemon]);
 
   return (

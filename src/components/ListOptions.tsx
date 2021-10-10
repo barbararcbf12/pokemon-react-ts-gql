@@ -1,26 +1,10 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { Badge, Button, ButtonGroup, Nav } from "react-bootstrap";
-import { ItemsPerPage } from "../containers/PokemonContainer";
+import { useAppStates } from "../contexts/AppContext";
 
 type Props = {
-  setitemsPerPage: Dispatch<SetStateAction<ItemsPerPage>>;
-  setOrderBy: Dispatch<SetStateAction<any>>;
   previousPage: () => void;
   nextPage: () => void;
-  page: number;
-  setNumberOfPages: Dispatch<SetStateAction<any>>;
-  totalNumberOfPokemons: number;
-  numberOfPages: number;
-  searchQuery: string;
-  setSearchQuery: Dispatch<SetStateAction<string>>;
-  hasSearchMatches: boolean;
-  hasNextPage: boolean;
-  setOffset: Dispatch<number>;
-  setPage: Dispatch<number>;
-  setSelectedOrderBy: Dispatch<any>;
-  selectedOrderBy: any;
-  setSelectedItemsPerPage: Dispatch<any>;
-  selectedItemsPerPage: any;
 };
 
 const ObjectStyles = {
@@ -43,12 +27,10 @@ const ObjectStyles = {
   },
 };
 
-function ListOptions(props: Props) {
+function ListOptions({ previousPage, nextPage }: Props) {
   const {
     setitemsPerPage,
     setOrderBy,
-    previousPage,
-    nextPage,
     page,
     setNumberOfPages,
     totalNumberOfPokemons,
@@ -63,7 +45,7 @@ function ListOptions(props: Props) {
     selectedOrderBy,
     selectedItemsPerPage,
     setSelectedItemsPerPage,
-  } = props;
+  } = useAppStates();
 
   React.useEffect(() => {
     function updateSelectedItemsPerPage() {

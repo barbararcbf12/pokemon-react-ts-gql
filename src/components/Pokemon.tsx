@@ -1,13 +1,13 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge, Card, ListGroup } from "react-bootstrap";
 import { fetchPokemonImage } from "../utils/getPokemonImage";
+import { useAppStates } from "../contexts/AppContext";
 
 import noImage from "../resources/no-image.jpg";
 
 type Props = {
   pokemon: any;
   openModal: () => void;
-  setSelectedPokemon: Dispatch<any>;
 };
 
 const ObjectStyles = {
@@ -37,7 +37,8 @@ const ObjectStyles = {
   },
 };
 
-function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
+function Pokemon({ pokemon, openModal }: Props) {
+  const { setSelectedPokemon } = useAppStates();
   const [pokemonImage, setpokemonImage] = useState("");
 
   useEffect(() => {
@@ -46,15 +47,15 @@ function Pokemon({ pokemon, openModal, setSelectedPokemon }: Props) {
     let image;
     if (pokemon && pokemon?.id && isMounted) {
       image = fetchPokemonImage(pokemon.id);
-    }
 
-    image
-      ?.then((img) => {
-        img ? setpokemonImage(img) : setpokemonImage(noImage);
-      })
-      .catch(() => {
-        console.log("Error");
-      });
+      image
+        ?.then((img) => {
+          img ? setpokemonImage(img) : setpokemonImage(noImage);
+        })
+        .catch(() => {
+          console.log("Error");
+        });
+    }
 
     return () => {
       isMounted = false;

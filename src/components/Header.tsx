@@ -1,14 +1,6 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import { Navbar } from "react-bootstrap";
 import Search from "../components/Search";
-
-type Props = {
-  setSearchQuery: Dispatch<string>;
-  setSearchCriteria: Dispatch<string>;
-  searchCriteria: string;
-  setOffset: Dispatch<number>;
-  setPage: Dispatch<number>;
-};
 
 const ObjectStyles = {
   navBar: { paddingBottom: "1rem" },
@@ -16,15 +8,7 @@ const ObjectStyles = {
   col: { paddingRight: 5 },
 };
 
-function Header(props: Props) {
-  const {
-    setSearchQuery,
-    searchCriteria,
-    setSearchCriteria,
-    setOffset,
-    setPage,
-  } = props;
-
+function Header() {
   return (
     <>
       <Navbar bg="light" expand="lg" style={ObjectStyles.navBar}>
@@ -33,13 +17,7 @@ function Header(props: Props) {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Search
-            setSearchQuery={setSearchQuery}
-            setSearchCriteria={setSearchCriteria}
-            searchCriteria={searchCriteria}
-            setOffset={setOffset}
-            setPage={setPage}
-          />
+          <Search />
         </Navbar.Collapse>
       </Navbar>
     </>

@@ -2,6 +2,11 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Pokemon from "../components/Pokemon";
 import PokemonModal from "../components/PokemonModal";
+import { useAppStates } from "../contexts/AppContext";
+
+type Props = {
+  handleShow: any;
+};
 
 const ObjectStyles = {
   containerCol: {
@@ -10,15 +15,8 @@ const ObjectStyles = {
   noResults: { minHeight: "20vh", display: "flex", alignItems: "center" },
 };
 
-function PokemonsContainer(props: any) {
-  const {
-    show,
-    setShow,
-    selectedPokemon,
-    pokemons,
-    setSelectedPokemon,
-    handleShow,
-  } = props;
+function PokemonsContainer({ handleShow }: Props) {
+  const { show, setShow, selectedPokemon, pokemons } = useAppStates();
 
   return (
     <>
@@ -26,11 +24,7 @@ function PokemonsContainer(props: any) {
       <Row xs={1} md={5} className="g-4">
         {pokemons?.map((pokemon: any) => (
           <Col key={pokemon.id} style={ObjectStyles.containerCol}>
-            <Pokemon
-              pokemon={pokemon}
-              openModal={handleShow}
-              setSelectedPokemon={setSelectedPokemon}
-            />
+            <Pokemon pokemon={pokemon} openModal={handleShow} />
           </Col>
         ))}
       </Row>

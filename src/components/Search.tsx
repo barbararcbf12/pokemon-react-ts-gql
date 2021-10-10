@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -7,14 +7,7 @@ import {
   Form,
   ToggleButton,
 } from "react-bootstrap";
-
-type Props = {
-  setSearchQuery: Dispatch<string>;
-  setSearchCriteria: Dispatch<string>;
-  searchCriteria: string;
-  setOffset: Dispatch<number>;
-  setPage: Dispatch<number>;
-};
+import { useAppStates } from "../contexts/AppContext";
 
 const radios = [
   { name: "Name", value: "name" },
@@ -30,13 +23,15 @@ const ObjectStyles = {
   col: { paddingRight: 5 },
 };
 
-export default function Search({
-  setSearchQuery,
-  setSearchCriteria,
-  searchCriteria,
-  setOffset,
-  setPage,
-}: Props) {
+export default function Search() {
+  const {
+    setSearchQuery,
+    searchCriteria,
+    setSearchCriteria,
+    setOffset,
+    setPage,
+  } = useAppStates();
+
   const [search, setSearch] = useState("");
 
   return (

@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Alert, Spinner } from "react-bootstrap";
-import { useCountPokemonsQuery, usePokemonsQuery } from "../generated/graphql";
 import PokemonsList from "../components/PokemonsList";
 import ListOptions from "../components/ListOptions";
 import Header from "../components/Header";
-import type {
-  PokemonAbilities,
-  PokemonType,
-  PokemonStat,
-} from "../components/PokemonDetails";
-
-export type ItemsPerPage = 10 | 20 | 50;
+import { useAppStates } from "../contexts/AppContext";
 
 export const spinnerStyle = {
   width: "10rem",
@@ -24,14 +17,6 @@ export const spinnerWrapperStyle = {
   marginTop: 50,
 };
 
-export type PokemonSearch = {
-  name: string;
-  sprites: { front_default: string };
-  abilities: Array<PokemonAbilities>;
-  stats: Array<PokemonStat>;
-  types: Array<PokemonType>;
-};
-
 const ObjectStyles = {
   containerCol: {
     display: "flex",
@@ -40,33 +25,27 @@ const ObjectStyles = {
 };
 
 function PokemonsContainer() {
-  const [selectedOrderBy, setSelectedOrderBy] = useState<Array<string>>(
-    JSON.parse(localStorage.getItem("selectedOrderBy")!) || ["active", "", ""]
-  );
-
-  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
-    JSON.parse(localStorage.getItem("selectedItemsPerPage")!) || [
-      "",
-      "active",
-      "",
-    ]
-  );
-
-  //Pagination states & functions
-  const [itemsPerPage, setitemsPerPage] = useState<ItemsPerPage>(
-    JSON.parse(localStorage.getItem("itemsPerPage")!) || 20
-  );
-  const [page, setPage] = useState<number>(
-    JSON.parse(localStorage.getItem("page")!) || 1
-  );
-  const [offset, setOffset] = useState<number>(
-    JSON.parse(localStorage.getItem("offset")!) || 0
-  );
-
-  //State to change order_by criteria
-  const [orderBy, setOrderBy] = useState<any>(
-    JSON.parse(localStorage.getItem("orderBy")!) || { name: "asc" }
-  );
+  const {
+    searchQuery,
+    offset,
+    setOffset,
+    page,
+    setPage,
+    itemsPerPage,
+    orderBy,
+    data,
+    error,
+    loading,
+    setPokemons,
+    dataNextPage,
+    setHasNextPage,
+    countData,
+    countError,
+    countLoading,
+    numberOfPages,
+    hasSearchMatches,
+    setShow,
+  } = useAppStates();
 
   React.useEffect(() => {
     function keepChoiceItemsPerPage() {
@@ -87,12 +66,6 @@ function PokemonsContainer() {
     keepChoiceOffset();
   }, [itemsPerPage, offset, orderBy, page]);
 
-  //Search states
-  const [searchQuery, setSearchQuery] = useState<string>(
-    JSON.parse(localStorage.getItem("searchQuery")!) || ""
-  );
-  const [searchCriteria, setSearchCriteria] = useState("name");
-
   React.useEffect(() => {
     function updateSearchQuery() {
       window.localStorage.setItem("searchQuery", JSON.stringify(searchQuery));
@@ -100,42 +73,9 @@ function PokemonsContainer() {
     updateSearchQuery();
   }, [searchQuery]);
 
-  //Modal states & function
-  const [show, setShow] = useState(false);
-
   function handleShow() {
     setShow(true);
   }
-  //
-
-  //Fetch pokemons from Graphql api
-  const options = {
-    variables: {
-      limit: itemsPerPage,
-      offset,
-      orderBy,
-      pokemonName: searchCriteria === "name" ? searchQuery : "",
-      pokemonAbility: searchCriteria === "name" ? "" : searchQuery,
-    },
-  };
-
-  const { data, error, loading } = usePokemonsQuery(options);
-
-  const [pokemons, setPokemons] = useState<any>([]);
-
-  //Fetch NEXT PAGE from Graphql api
-  const nextPageOptions = {
-    variables: {
-      limit: itemsPerPage,
-      offset: offset + itemsPerPage,
-      orderBy,
-      pokemonName: searchCriteria === "name" ? searchQuery : "",
-      pokemonAbility: searchCriteria === "name" ? "" : searchQuery,
-    },
-  };
-  const { data: dataNextPage } = usePokemonsQuery(nextPageOptions);
-
-  const [hasNextPage, setHasNextPage] = useState(true);
 
   useEffect(() => {
     setPokemons(data?.pokemon_v2_pokemon ?? []);
@@ -145,23 +85,12 @@ function PokemonsContainer() {
         ? true
         : false;
     setHasNextPage(nextPage);
-  }, [data?.pokemon_v2_pokemon, dataNextPage?.pokemon_v2_pokemon]);
-
-  const hasSearchMatches = pokemons?.length > 0;
-
-  //Find total number of pages
-  const {
-    data: countData,
-    error: countError,
-    loading: countLoading,
-  } = useCountPokemonsQuery();
-
-  let totalNumberOfPokemons = Math.round(
-    countData?.pokemon_v2_pokemon_aggregate?.aggregate?.count ??
-      1118 / itemsPerPage
-  );
-
-  const [numberOfPages, setNumberOfPages] = useState(totalNumberOfPokemons);
+  }, [
+    data?.pokemon_v2_pokemon,
+    dataNextPage?.pokemon_v2_pokemon,
+    setHasNextPage, //
+    setPokemons, //
+  ]);
 
   //Pagination functions
   function previousPage() {
@@ -177,9 +106,6 @@ function PokemonsContainer() {
       setOffset(offset + itemsPerPage);
     }
   }
-  //
-
-  const [selectedPokemon, setSelectedPokemon] = useState();
 
   //Rendering depending on responses
   if (loading || countLoading) {
@@ -196,69 +122,18 @@ function PokemonsContainer() {
 
   return (
     <>
-      <Header
-        setSearchQuery={setSearchQuery}
-        setSearchCriteria={setSearchCriteria}
-        searchCriteria={searchCriteria}
-        setOffset={setOffset}
-        setPage={setPage}
-      />
+      <Header />
 
-      <ListOptions
-        setitemsPerPage={setitemsPerPage}
-        setOrderBy={setOrderBy}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        page={page}
-        setNumberOfPages={setNumberOfPages}
-        totalNumberOfPokemons={totalNumberOfPokemons}
-        numberOfPages={numberOfPages}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        hasSearchMatches={hasSearchMatches}
-        hasNextPage={hasNextPage}
-        setOffset={setOffset}
-        setPage={setPage}
-        setSelectedOrderBy={setSelectedOrderBy}
-        selectedOrderBy={selectedOrderBy}
-        setSelectedItemsPerPage={setSelectedItemsPerPage}
-        selectedItemsPerPage={selectedItemsPerPage}
-      />
+      <ListOptions previousPage={previousPage} nextPage={nextPage} />
 
       {hasSearchMatches && (!loading || !countLoading) ? (
-        <PokemonsList
-          show={show}
-          setShow={setShow}
-          selectedPokemon={selectedPokemon}
-          pokemons={pokemons}
-          setSelectedPokemon={setSelectedPokemon}
-          handleShow={handleShow}
-        />
+        <PokemonsList handleShow={handleShow} />
       ) : (
         <div style={ObjectStyles.noResults}>
           <h5>There are no pokemons matching your serch</h5>
         </div>
       )}
-      <ListOptions
-        setitemsPerPage={setitemsPerPage}
-        setOrderBy={setOrderBy}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        page={page}
-        setNumberOfPages={setNumberOfPages}
-        totalNumberOfPokemons={totalNumberOfPokemons}
-        numberOfPages={numberOfPages}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        hasSearchMatches={hasSearchMatches}
-        hasNextPage={hasNextPage}
-        setOffset={setOffset}
-        setPage={setPage}
-        setSelectedOrderBy={setSelectedOrderBy}
-        selectedOrderBy={selectedOrderBy}
-        setSelectedItemsPerPage={setSelectedItemsPerPage}
-        selectedItemsPerPage={selectedItemsPerPage}
-      />
+      <ListOptions previousPage={previousPage} nextPage={nextPage} />
     </>
   );
 }
