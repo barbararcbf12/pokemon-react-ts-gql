@@ -3,7 +3,7 @@ import { Alert, Spinner } from "react-bootstrap";
 import PokemonsList from "../components/PokemonsList";
 import ListOptions from "../components/ListOptions";
 import Header from "../components/Header";
-import { useAppStates } from "../contexts/AppContext";
+import { useAppStates } from "../contexts/AppStatesContext";
 
 export const spinnerStyle = {
   width: "10rem",

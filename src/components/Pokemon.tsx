@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Badge, Card, ListGroup } from "react-bootstrap";
 import { fetchPokemonImage } from "../utils/getPokemonImage";
-import { useAppStates } from "../contexts/AppContext";
+import { useAppStates } from "../contexts/AppStatesContext";
 
 import noImage from "../resources/no-image.jpg";
 

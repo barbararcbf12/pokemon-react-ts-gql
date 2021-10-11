@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge, Button, ButtonGroup, Nav } from "react-bootstrap";
-import { useAppStates } from "../contexts/AppContext";
+import { useAppStates } from "../contexts/AppStatesContext";
 
 type Props = {
   previousPage: () => void;

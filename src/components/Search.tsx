@@ -7,7 +7,7 @@ import {
   Form,
   ToggleButton,
 } from "react-bootstrap";
-import { useAppStates } from "../contexts/AppContext";
+import { useAppStates } from "../contexts/AppStatesContext";
 
 const radios = [
   { name: "Name", value: "name" },

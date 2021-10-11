@@ -1,7 +1,7 @@
 import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import PokemonsContainer from "./containers/PokemonContainer";
-import { AppProvider } from "./contexts/AppContext";
+import { AppProvider } from "./contexts/AppStatesContext";
 
 function App() {
   const client = new ApolloClient({

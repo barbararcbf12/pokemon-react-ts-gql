@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Pokemon from "../components/Pokemon";
 import PokemonModal from "../components/PokemonModal";
-import { useAppStates } from "../contexts/AppContext";
+import { useAppStates } from "../contexts/AppStatesContext";
 
 type Props = {
   handleShow: any;
