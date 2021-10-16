@@ -1,11 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Badge, Button, ButtonGroup, Nav } from "react-bootstrap";
 import { useAppStates } from "../contexts/AppStatesContext";
-
-type Props = {
-  previousPage: () => void;
-  nextPage: () => void;
-};
 
 const ObjectStyles = {
   nav: {
@@ -27,7 +22,7 @@ const ObjectStyles = {
   },
 };
 
-function ListOptions({ previousPage, nextPage }: Props) {
+function ListOptions() {
   const {
     setitemsPerPage,
     setOrderBy,
@@ -45,9 +40,11 @@ function ListOptions({ previousPage, nextPage }: Props) {
     selectedOrderBy,
     selectedItemsPerPage,
     setSelectedItemsPerPage,
+    previousPage,
+    nextPage,
   } = useAppStates();
 
-  React.useEffect(() => {
+  useEffect(() => {
     function updateSelectedItemsPerPage() {
       window.localStorage.setItem(
         "selectedItemsPerPage",
@@ -65,6 +62,42 @@ function ListOptions({ previousPage, nextPage }: Props) {
     updateSelectedOrderBy();
   }, [selectedItemsPerPage, selectedOrderBy]);
 
+  //Number of Items per page - functions
+  const numberOfElements10 = (dispatchSelected: any, dispatchAction: any) => {
+    dispatchSelected(["active", "", ""]);
+    dispatchAction(10);
+  };
+  const numberOfElements20 = (dispatchSelected: any, dispatchAction: any) => {
+    dispatchSelected(["", "active", ""]);
+    dispatchAction(20);
+  };
+  const numberOfElements50 = (dispatchSelected: any, dispatchAction: any) => {
+    dispatchSelected(["", "", "active"]);
+    dispatchAction(50);
+  };
+
+  //Order by - functions
+  const orderByName = (dispatchSelected: any, dispatchAction: any) => {
+    dispatchSelected(["active", "", ""]);
+    dispatchAction({ name: "asc" });
+  };
+  const orderByHeight = (dispatchSelected: any, dispatchAction: any) => {
+    dispatchSelected(["", "active", ""]);
+    dispatchAction({ height: "asc" });
+  };
+  const orderByWeight = (dispatchSelected: any, dispatchAction: any) => {
+    dispatchSelected(["", "", "active"]);
+    dispatchAction({ weight: "asc" });
+  };
+
+  //Paging - functions
+  const resetPage = (itemsPerPage?: number) => {
+    setOffset(0);
+    setPage(1);
+    if (itemsPerPage)
+      setNumberOfPages(Math.round(totalNumberOfPokemons / itemsPerPage));
+  };
+
   return (
     <Nav fill style={ObjectStyles.nav}>
       <Nav.Item style={ObjectStyles.navItemSearch}>
@@ -74,8 +107,7 @@ function ListOptions({ previousPage, nextPage }: Props) {
             <Button
               variant="primary"
               onClick={() => {
-                setOffset(0);
-                setPage(1);
+                resetPage();
                 setSearchQuery("");
               }}
             >
@@ -97,11 +129,8 @@ function ListOptions({ previousPage, nextPage }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setSelectedItemsPerPage(["active", "", ""]);
-                  setOffset(0);
-                  setPage(1);
-                  setitemsPerPage(10);
-                  setNumberOfPages(Math.round(totalNumberOfPokemons / 10));
+                  numberOfElements10(setSelectedItemsPerPage, setitemsPerPage);
+                  resetPage(10);
                 }}
                 className={selectedItemsPerPage[0]}
               >
@@ -110,11 +139,8 @@ function ListOptions({ previousPage, nextPage }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setSelectedItemsPerPage(["", "active", ""]);
-                  setOffset(0);
-                  setPage(1);
-                  setitemsPerPage(20);
-                  setNumberOfPages(Math.round(totalNumberOfPokemons / 20));
+                  numberOfElements20(setSelectedItemsPerPage, setitemsPerPage);
+                  resetPage(20);
                 }}
                 className={selectedItemsPerPage[1]}
               >
@@ -123,11 +149,8 @@ function ListOptions({ previousPage, nextPage }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setSelectedItemsPerPage(["", "", "active"]);
-                  setOffset(0);
-                  setPage(1);
-                  setitemsPerPage(50);
-                  setNumberOfPages(Math.round(totalNumberOfPokemons / 50));
+                  numberOfElements50(setSelectedItemsPerPage, setitemsPerPage);
+                  resetPage(50);
                 }}
                 className={selectedItemsPerPage[2]}
               >
@@ -141,10 +164,8 @@ function ListOptions({ previousPage, nextPage }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setSelectedOrderBy(["active", "", ""]);
-                  setOffset(0);
-                  setPage(1);
-                  setOrderBy({ name: "asc" });
+                  orderByName(setSelectedOrderBy, setOrderBy);
+                  resetPage();
                 }}
                 className={selectedOrderBy[0]}
               >
@@ -153,10 +174,8 @@ function ListOptions({ previousPage, nextPage }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setSelectedOrderBy(["", "active", ""]);
-                  setOffset(0);
-                  setPage(1);
-                  setOrderBy({ height: "asc" });
+                  orderByHeight(setSelectedOrderBy, setOrderBy);
+                  resetPage();
                 }}
                 className={selectedOrderBy[1]}
               >
@@ -165,10 +184,8 @@ function ListOptions({ previousPage, nextPage }: Props) {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setSelectedOrderBy(["", "", "active"]);
-                  setOffset(0);
-                  setPage(1);
-                  setOrderBy({ weight: "asc" });
+                  orderByWeight(setSelectedOrderBy, setOrderBy);
+                  resetPage();
                 }}
                 className={selectedOrderBy[2]}
               >

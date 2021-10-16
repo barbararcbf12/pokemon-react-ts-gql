@@ -50,6 +50,8 @@ type Props = {
   setSelectedPokemon: Dispatch<React.SetStateAction<any>>;
   show: boolean;
   setShow: Dispatch<boolean>;
+  previousPage: () => void;
+  nextPage: () => void;
 };
 
 const initialValues: Props = {
@@ -88,6 +90,8 @@ const initialValues: Props = {
   setSelectedPokemon: () => undefined,
   show: false,
   setShow: () => false,
+  previousPage: () => undefined,
+  nextPage: () => undefined,
 };
 
 const AppStatesContext = createContext(initialValues);
@@ -180,6 +184,21 @@ function AppProvider({ ...props }) {
   //Modal states & function
   const [show, setShow] = useState(false);
 
+  //Pagination functions
+  function previousPage() {
+    if (page > 1) {
+      setPage(page - 1);
+      setOffset(offset - itemsPerPage);
+    } else if (page === 1) setOffset(0);
+  }
+
+  function nextPage() {
+    if (page < numberOfPages) {
+      setPage(page + 1);
+      setOffset(offset + itemsPerPage);
+    }
+  }
+
   const value = {
     searchQuery,
     setSearchQuery,
@@ -216,6 +235,8 @@ function AppProvider({ ...props }) {
     setSelectedPokemon,
     show,
     setShow,
+    previousPage,
+    nextPage,
   };
 
   return <AppStatesContext.Provider value={value} {...props} />;
@@ -229,8 +250,4 @@ function useAppStates() {
   return context;
 }
 
-//To improve ListOptions component later
-// const increment = (dispatch) => dispatch({ type: "increment" });
-// const decrement = (dispatch) => dispatch({ type: "decrement" });
-
-export { AppProvider, useAppStates }; //, increment, decrement };
+export { AppProvider, useAppStates };
