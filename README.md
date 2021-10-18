@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Functionalities
 
 - Fetch data from the Pokemon Graphql endpoint https://beta.pokeapi.co/graphql/v1beta paginated
-- Generate types based on the Graphql schema automatically
+- Automatically generate types based on the Graphql schema 
 - The user can:
   - click on a Pokemon to see more information about it
   - search for a Pokemon by `name` or `ability`
