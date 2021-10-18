@@ -11,7 +11,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - search for a Pokemon by `name` or `ability`
   - order the list of pokemons by `name`, `height` or `weight`
   - navigate back and forward through the available pages of results
-  - chose how many results should be displayed per page
+  - choose how many results should be displayed per page
 
 ## Deployed app
 
