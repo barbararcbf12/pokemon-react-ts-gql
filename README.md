@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Generate types based on the Graphql schema automatically
 - The user can:
   - click on a Pokemon to see more information about it
-  - search for a Pokemon by `name`
+  - search for a Pokemon by `name` or `ability`
   - order the list of pokemons by `name`, `height` or `weight`
   - navigate back and forward through the available pages of results
   - chose how many results should be displayed per page
